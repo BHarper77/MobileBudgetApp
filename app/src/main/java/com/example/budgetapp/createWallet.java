@@ -2,6 +2,7 @@ package com.example.budgetapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,5 +31,11 @@ public class createWallet extends AppCompatActivity implements  View.OnClickList
 
         //Creating new Wallet with inputted values
         wallet = new Wallet(walletName.getText().toString(), balance);
+
+        //Sending class data back to main activity
+        Intent intent = new Intent(createWallet.this, MainActivity.class);
+        intent.putExtra("walletName", wallet.getWalletName());
+        intent.putExtra("walletBalance", wallet.getBalance());
+        startActivity(intent);
     }
 }
