@@ -14,6 +14,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+    //Creating walletList
+    List<Wallet> walletList = new ArrayList<Wallet>();
+
+    void main()
+    {
+        if (walletList.size() > 0)
+        {
+            //Display default wallet if one has been saved, retrieve walletList from local storage
+
+            for (int i = 0; i < (walletList.size() + 1); i++)
+            {
+                //Display extra menu for every extra wallet
+            }
+        }
+        else
+        {
+            //Display normal intro page, with Create Wallet button
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //Adding wallet to walletList
             addToWalletList(resultWallet);
 
-            walletNameText.setText(resultWallet.getWalletName());
+            walletNameText.setText("Current Wallet: " + resultWallet.getWalletName());
             walletBalanceText.setText(Integer.toString(resultWallet.getBalance()));
 
             //Toast.makeText(this, resultWallet.getWalletName(), Toast.LENGTH_SHORT).show();
@@ -52,7 +71,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void addToWalletList(Wallet currentWallet) {
-        walletList walletList;
-        walletList.walletsList.add()
+        int size = walletList.size();
+
+        walletList.add(size, currentWallet);
     }
 }

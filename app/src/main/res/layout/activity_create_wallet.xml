@@ -36,7 +36,6 @@
         android:layout_marginTop="124dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Wallet name"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="parent" />
 
