@@ -7,6 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -34,14 +39,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             //Retriving bundle and extracting data
             Bundle data = intent.getExtras();
-            String walletName = data.getString("walletName");
-            int walletBalance = data.getInt("walletBalance");
+            Wallet resultWallet = (Wallet)data.getSerializable("walletClass");
 
-            walletNameText.setText(walletName);
-            walletBalanceText.setText(String.valueOf(walletBalance));
+            //Adding wallet to walletList
+            addToWalletList(resultWallet);
 
+            walletNameText.setText(resultWallet.getWalletName());
+            walletBalanceText.setText(Integer.toString(resultWallet.getBalance()));
 
-            //Toast.makeText(this, walletName, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, resultWallet.getWalletName(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    void addToWalletList(Wallet currentWallet) {
+        walletList walletList;
+        walletList.walletsList.add()
     }
 }

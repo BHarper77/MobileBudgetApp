@@ -33,12 +33,11 @@ public class createWallet extends AppCompatActivity implements  View.OnClickList
             int balance = Integer.parseInt(walletBalance.getText().toString());
 
             //Creating new Wallet with inputted values
-            wallet = new Wallet(walletName.getText().toString(), balance);
+            Wallet wallet = new Wallet(walletName.getText().toString(), balance);
 
             //Sending class data back to main activity
             Intent intent = new Intent();
-            intent.putExtra("walletName", wallet.getWalletName());
-            intent.putExtra("walletBalance", wallet.getBalance());
+            intent.putExtra("walletClass", wallet);
             this.setResult(RESULT_OK, intent);
 
             finish();

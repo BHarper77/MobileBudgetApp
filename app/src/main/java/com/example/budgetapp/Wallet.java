@@ -1,6 +1,10 @@
 package com.example.budgetapp;
 
-public class Wallet {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Wallet implements Serializable{
     String walletName;
     int balance;
 
