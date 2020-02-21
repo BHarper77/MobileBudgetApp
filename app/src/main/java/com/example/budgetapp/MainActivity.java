@@ -1,14 +1,12 @@
 package com.example.budgetapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +61,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //Adding wallet to walletList
             addToWalletList(resultWallet);
 
+            saveWallets();
+
             walletNameText.setText("Current Wallet: " + resultWallet.getWalletName());
             walletBalanceText.setText(Integer.toString(resultWallet.getBalance()));
-
-            //Toast.makeText(this, resultWallet.getWalletName(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -74,5 +72,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int size = walletList.size();
 
         walletList.add(size, currentWallet);
+    }
+
+    void saveWallets() {
+
     }
 }
