@@ -12,7 +12,9 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -21,8 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    //Creating walletList
-    //List<WalletClass> walletList = new ArrayList<WalletClass>();
+    WalletList walletList = new WalletList();
 
 
     @Override
@@ -36,23 +37,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Read from save file if one exists, check if a walletList exists, if not create an instance, if one exists decode the JSON and keep that list object, display all wallets
 
         //region ReadingFile
-        //Copied from lecture, not finished yet
         String filename = "myFile";
-        FileInputStream fis = openFileInput(filename);
+        FileInputStream fis = null;
+
+        try
+        {
+            fis = openFileInput(filename);
+        } catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
 
         StringBuilder data = new StringBuilder();
-        String line = reader.readLine();
+        String line = null;
+
+        try
+        {
+            line = reader.readLine();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
         while (line != null)
         {
+            //Lines in one string with line break after every row
             data.append(line).append("\n");
         };
 
         data.toString();
 
-        reader.close();
-        fis.close();
+        try
+        {
+            reader.close();
+            fis.close();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         //endregion
     }
 
@@ -64,18 +88,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Gson gson = new Gson();
 
         //region CreatingSaveFile
-        //Creating file and writing data to file for saving
         String filename = "myFile";
-        String string = "test";
+        String data = gson.toJson(walletList);
 
         try
         {
             FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
 
-            fos.write(string.getBytes());
+            fos.write(data.getBytes());
             fos.close();
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -99,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Bundle data = intent.getExtras();
             WalletClass resultWallet = (WalletClass)data.getSerializable("walletClass");
 
-            //add to current walletList
+            walletList.addToList(resultWallet);
 
             walletNameText.setText("Current Wallet: " + resultWallet.getWalletName());
             walletBalanceText.setText(Integer.toString(resultWallet.getBalance()));
