@@ -6,4 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".loginActivity">
 
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/signInButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/signOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="@+id/signInButton"
+        app:layout_constraintStart_toStartOf="@+id/signInButton"
+        tools:layout_editor_absoluteY="381dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
