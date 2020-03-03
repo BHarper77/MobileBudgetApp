@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Read from save file if one exists, check if a walletList exists, if not create an instance, if one exists decode the JSON and keep that list object, display all wallets
 
         //region ReadingFile
-        String filename = "myFile";
+        /*String filename = "myFile";
         FileInputStream fis = null;
 
         try
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (IOException e)
         {
             e.printStackTrace();
-        }
+        }*/
         //endregion
     }
 
@@ -85,10 +85,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
 
         //Encode wallet list into JSON object and save to file
-        Gson gson = new Gson();
+        //Gson gson = new Gson();
 
         //region CreatingSaveFile
-        String filename = "myFile";
+        /*String filename = "myFile";
         String data = gson.toJson(walletList);
 
         try
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (Exception e)
         {
             e.printStackTrace();
-        }
+        }*/
         //endregion
     }
 
