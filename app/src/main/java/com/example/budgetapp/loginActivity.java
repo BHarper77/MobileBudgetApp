@@ -127,7 +127,8 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            //updateUI(user);
+
+                            Toast.makeText(getApplicationContext(), "logged in", Toast.LENGTH_SHORT).show();
                         }
                         else
                         {
@@ -135,7 +136,6 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
 
                             Toast.makeText(getApplicationContext(), "Authentication Failed.", Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
                         }
                     }
                 });
