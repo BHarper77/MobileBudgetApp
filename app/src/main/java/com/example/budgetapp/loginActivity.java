@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -87,7 +88,6 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
         FirebaseAuth.getInstance().signOut();
     }
 
-
     //Sign into Google account, then call Firebase sign in
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -96,17 +96,19 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN)
         {
+            Log.e("error", "requestCode check");
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
             try
             {
+                Log.e("error", "google sign in good");
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e)
             {
                 // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e);
+                Log.e(TAG, "Google sign in failed", e);
             }
         }
     }
