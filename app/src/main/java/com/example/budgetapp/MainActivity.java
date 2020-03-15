@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,21 +27,24 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener
+{
     WalletList walletList = new WalletList();
 
+    private FirebaseAuth mAuth;
+    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button createWallet  = findViewById(R.id.createWallet);
-        createWallet.setOnClickListener(this);
+        findViewById(R.id.createWallet).setOnClickListener(this);
 
         //Read from save file if one exists, check if a walletList exists, if not create an instance, if one exists decode the JSON and keep that list object, display all wallets
-
         //region ReadingFile
-        /*String filename = "myFile";
+        String filename = "userSaveFile";
         FileInputStream fis = null;
 
         try
@@ -58,39 +63,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         try
         {
             line = reader.readLine();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
 
-        while (line != null)
-        {
-            //Lines in one string with line break after every row
-            data.append(line).append("\n");
-        };
+            while (line != null)
+            {
+                //Lines in one string with line break after every row
+                data.append(line).append("\n");
+            }
 
-        data.toString();
+            data.toString();
 
-        try
-        {
             reader.close();
             fis.close();
         } catch (IOException e)
         {
             e.printStackTrace();
-        }*/
+        }
         //endregion
+
+        mAuth = FirebaseAuth.getInstance();
+
+        if (currentUser == null)
+        {
+            Intent intent = new Intent(MainActivity.this, loginActivity.class);
+            startActivity(intent);
+
+            finish();
+        }
+
+        loadUI();
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
 
         //Encode wallet list into JSON object and save to file
-        //Gson gson = new Gson();
+        Gson gson = new Gson();
 
         //region CreatingSaveFile
-        /*String filename = "myFile";
+        String filename = "userSaveFile";
         String data = gson.toJson(walletList);
 
         try
@@ -102,18 +114,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (Exception e)
         {
             e.printStackTrace();
-        }*/
+        }
         //endregion
     }
 
+    public void loadUI()
+    {
+        Toast.makeText(getApplicationContext(), "Hello " + currentUser.getDisplayName(), Toast.LENGTH_SHORT).show();
+    }
+
     @Override
-    public void onClick(View view) {
-        Intent intent = new Intent(MainActivity.this, createWalletActivity.class);
-        startActivityForResult(intent, 1);
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
+            case R.id.createWallet:
+                Intent intent = new Intent(MainActivity.this, createWalletActivity.class);
+                startActivityForResult(intent, 1);
+        }
+
     }
 
     //Retrieving new created wallet from createWallet activity
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent)
+    {
         TextView walletNameText = findViewById(R.id.walletName);
         TextView walletBalanceText = findViewById(R.id.walletBalance);
 

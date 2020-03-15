@@ -4,25 +4,30 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WalletClass implements Serializable{
+public class WalletClass implements Serializable
+{
     String walletName;
     int balance;
 
     //Constructor
-    public WalletClass(String walletName, int balance) {
+    public WalletClass(String walletName, int balance)
+    {
         this.walletName = walletName;
         this.balance = balance;
     }
-    public String getWalletName() {
+    public String getWalletName()
+    {
         return walletName;
     }
 
-    public int getBalance() {
+    public int getBalance()
+    {
         return balance;
     }
 }
 
-class WalletList {
+class WalletList
+{
     List<WalletClass> walletList = new ArrayList<WalletClass>();
 
     //Adding new wallets to list

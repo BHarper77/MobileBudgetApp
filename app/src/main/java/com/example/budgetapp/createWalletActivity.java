@@ -10,9 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class createWalletActivity extends AppCompatActivity implements  View.OnClickListener{
+public class createWalletActivity extends AppCompatActivity implements  View.OnClickListener
+{
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_wallet);
         
@@ -21,7 +23,8 @@ public class createWalletActivity extends AppCompatActivity implements  View.OnC
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(View view)
+    {
         EditText walletName = findViewById(R.id.walletName);
         EditText walletBalance = findViewById(R.id.walletBalance);
 
@@ -42,7 +45,8 @@ public class createWalletActivity extends AppCompatActivity implements  View.OnC
     }
 
     //Validating wallet creation fields
-    public boolean validate() {
+    public boolean validate()
+    {
         EditText walletName = findViewById(R.id.walletName);
         String walletNameString = walletName.getText().toString();
 
