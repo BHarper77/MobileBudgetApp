@@ -19,17 +19,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
-    WalletList walletList = new WalletList();
+    List<WalletClass> walletList = new ArrayList<WalletClass>();
 
     private FirebaseAuth mAuth;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -42,43 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         findViewById(R.id.createWallet).setOnClickListener(this);
 
-        //Read from save file if one exists, check if a walletList exists, if not create an instance, if one exists decode the JSON and keep that list object, display all wallets
-        //region ReadingFile
-        String filename = "userSaveFile";
-        FileInputStream fis = null;
-
-        try
-        {
-            fis = openFileInput(filename);
-        } catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-
-        StringBuilder data = new StringBuilder();
-        String line = null;
-
-        try
-        {
-            line = reader.readLine();
-
-            while (line != null)
-            {
-                //Lines in one string with line break after every row
-                data.append(line).append("\n");
-            }
-
-            data.toString();
-
-            reader.close();
-            fis.close();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        //endregion
+        load();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -98,24 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onDestroy();
 
-        //Encode wallet list into JSON object and save to file
-        Gson gson = new Gson();
-
-        //region CreatingSaveFile
-        String filename = "userSaveFile";
-        String data = gson.toJson(walletList);
-
-        try
-        {
-            FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
-
-            fos.write(data.getBytes());
-            fos.close();
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        //endregion
+        save();
     }
 
     public void loadUI()
@@ -132,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(MainActivity.this, createWalletActivity.class);
                 startActivityForResult(intent, 1);
         }
-
     }
 
     //Retrieving new created wallet from createWallet activity
@@ -147,10 +95,65 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Bundle data = intent.getExtras();
             WalletClass resultWallet = (WalletClass)data.getSerializable("walletClass");
 
-            walletList.addToList(resultWallet);
+            walletList.add(resultWallet);
 
             walletNameText.setText("Current Wallet: " + resultWallet.getWalletName());
             walletBalanceText.setText(Integer.toString(resultWallet.getBalance()));
+        }
+    }
+
+    public void save()
+    {
+        String filename = "userSaveFile.txt";
+
+        Gson gson = new Gson();
+        String data = gson.toJson(walletList);
+
+        Log.e("walletListJSon", data);
+
+        FileOutputStream fos = null;
+
+        try {
+            fos = openFileOutput(filename, Context.MODE_PRIVATE);
+
+            fos.write(data.getBytes());
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void load()
+    {
+        String filename = "userSaveFile.txt";
+        FileInputStream fis = null;
+
+        try {
+            fis = openFileInput(filename);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+
+            StringBuilder data = new StringBuilder();
+            String line = null;
+
+            line = reader.readLine();
+
+            while (line != null)
+            {
+                data.append(line).append("\n");
+            }
+
+            reader.close();
+            fis.close();
+
+            Type walletListType = new TypeToken<ArrayList<WalletClass>>(){}.getType();
+            walletList = new Gson().fromJson(data.toString(), walletListType);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

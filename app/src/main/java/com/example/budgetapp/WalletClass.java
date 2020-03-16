@@ -25,18 +25,3 @@ public class WalletClass implements Serializable
         return balance;
     }
 }
-
-class WalletList
-{
-    List<WalletClass> walletList = new ArrayList<WalletClass>();
-
-    //Adding new wallets to list
-    public void addToList(WalletClass wallet) {
-        walletList.add(wallet);
-    }
-
-    //Getter
-    public List<WalletClass> getWalletList() {
-        return walletList;
-    }
-}
