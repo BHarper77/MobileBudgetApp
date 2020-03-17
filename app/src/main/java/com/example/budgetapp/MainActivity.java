@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         findViewById(R.id.createWallet).setOnClickListener(this);
 
-        load();
-
         mAuth = FirebaseAuth.getInstance();
 
         if (currentUser == null)
@@ -55,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             finish();
         }
+
+        //load();
 
         loadUI();
     }
@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void loadUI()
     {
         Toast.makeText(getApplicationContext(), "Hello " + currentUser.getDisplayName(), Toast.LENGTH_SHORT).show();
+
+        //Toast.makeText(getApplicationContext(), "Amount of wallets: " + walletList.size(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
