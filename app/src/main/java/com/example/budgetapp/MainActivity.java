@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -130,10 +132,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void load()
     {
         String filename = "userSaveFile.txt";
-        FileInputStream fis = null;
 
         try {
-            fis = openFileInput(filename);
+            FileInputStream fis = openFileInput(filename);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
 
