@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.Serializable;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         findViewById(R.id.createWallet).setOnClickListener(this);
+        findViewById(R.id.saveButton).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -64,9 +66,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy()
     {
-        super.onDestroy();
-
         save();
+
+        super.onDestroy();
     }
 
     public void loadUI()
@@ -84,6 +86,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.createWallet:
                 Intent intent = new Intent(MainActivity.this, createWalletActivity.class);
                 startActivityForResult(intent, 1);
+
+            case R.id.saveButton:
+                save();
+                getDir();
         }
     }
 
@@ -108,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void save()
     {
-        String filename = "userSaveFile.txt";
+        String filename = "userSaveFile";
 
         Gson gson = new Gson();
         String data = gson.toJson(walletList);
@@ -129,9 +135,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    public void getDir()
+    {
+        String path = getApplicationContext().getFilesDir().getPath();
+
+        File file = new File(path + "fileName");
+
+        Toast.makeText(getApplicationContext(), "path: " + file, Toast.LENGTH_LONG).show();
+    }
+
     public void load()
     {
-        String filename = "userSaveFile.txt";
+        String filename = "userSaveFile";
 
         try {
             FileInputStream fis = openFileInput(filename);
