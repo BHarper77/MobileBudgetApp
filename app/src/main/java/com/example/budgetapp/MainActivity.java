@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             finish();
         }
 
-        //load();
+        load();
 
         loadUI();
     }
@@ -66,9 +66,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy()
     {
-        save();
-
         super.onDestroy();
+
+        save();
     }
 
     public void loadUI()
