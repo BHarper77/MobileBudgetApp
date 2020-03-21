@@ -97,9 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Retrieving new created wallet from createWallet activity
     protected void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
-        TextView walletNameText = findViewById(R.id.walletName);
-        TextView walletBalanceText = findViewById(R.id.walletBalance);
-
         if (requestCode == 1 && resultCode == RESULT_OK)
         {
             //Retriving bundle and extracting data
@@ -107,9 +104,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             WalletClass resultWallet = (WalletClass)data.getSerializable("walletClass");
 
             walletList.add(resultWallet);
-
-            walletNameText.setText("Current Wallet: " + resultWallet.getWalletName());
-            walletBalanceText.setText(Integer.toString(resultWallet.getBalance()));
         }
     }
 
