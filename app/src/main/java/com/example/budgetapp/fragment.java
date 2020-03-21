@@ -10,15 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class DemoFragment extends Fragment
+public class fragment extends Fragment
 {
     private TextView textView;
 
-    public DemoFragment()
+    public fragment()
     {
         // Required empty public constructor
     }

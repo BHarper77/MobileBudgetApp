@@ -49,20 +49,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        viewPager = findViewById(R.id.pager);
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(adapter);
-
-        tabLayout = findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(viewPager);
-
-        findViewById(R.id.createWallet).setOnClickListener(this);
-        findViewById(R.id.checkWallets).setOnClickListener(this);
-
-        mAuth = FirebaseAuth.getInstance();
-
+        //Check user logged in
         if (currentUser == null)
         {
             Intent intent = new Intent(MainActivity.this, loginActivity.class);
@@ -71,9 +59,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             finish();
         }
 
-        load();
+        loadFile();
 
-        loadUI();
+        //Checking if user has wallets
+        if (walletList.isEmpty())
+        {
+            setContentView(R.layout.default_home);
+        }
+        else
+        {
+            setContentView(R.layout.activity_main);
+            loadUI();
+        }
+
+        tabLayout = findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
+
+        findViewById(R.id.createWallet).setOnClickListener(this);
+        findViewById(R.id.checkWallets).setOnClickListener(this);
+
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -81,14 +86,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onDestroy();
 
-        save();
+        saveFile();
     }
 
     public void loadUI()
     {
-        Toast.makeText(getApplicationContext(), "Hello " + currentUser.getDisplayName(), Toast.LENGTH_SHORT).show();
+        viewPager = findViewById(R.id.pager);
+        adapter  = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
 
-        //Toast.makeText(getApplicationContext(), "Amount of wallets: " + walletList.size(), Toast.LENGTH_SHORT).show();
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        // TODO: Dynamically create fragments, finish
+        for (int i = 0; i < walletList.size(); i++)
+        {
+            WalletClass object = walletList.get(i);
+            viewPagerAdapter.addFragment(new fragment(), object);
+        }
     }
 
     @Override
@@ -120,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void save()
+    public void saveFile()
     {
         String filename = "userSaveFile";
 
@@ -143,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void load()
+    public void loadFile()
     {
         String filename = "userSaveFile";
 

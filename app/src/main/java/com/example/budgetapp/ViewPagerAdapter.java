@@ -7,17 +7,22 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ViewPagerAdapter extends FragmentPagerAdapter
 {
+    List<fragment> fragmentList = new ArrayList<>();
+
     public ViewPagerAdapter(FragmentManager fm)
     {
         super(fm);
     }
 
     @Override
-    public Fragment getItem(int position)
+    public fragment getItem(int position)
     {
-        DemoFragment fragment = new DemoFragment();
+        /*fragment fragment = new fragment();
         position = position + 1;
 
         Bundle bundle = new Bundle();
@@ -25,13 +30,27 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
 
         fragment.setArguments(bundle);
 
-        return fragment;
+        return fragment;*/
+
+        return fragmentList.get(position);
+    }
+
+    public void addFragment (fragment fragment, WalletClass wallet)
+    {
+        fragmentList.add(fragment);
+    }
+
+    public void removeFragment (fragment fragment)
+    {
+        fragmentList.remove(fragment);
+
+        //fragmentList.remove(getItemPosition(fragment));
     }
 
     @Override
     public int getCount()
     {
-        return 3;
+        return fragmentList.size();
     }
 
     @Nullable
