@@ -34,10 +34,10 @@ import com.google.gson.reflect.TypeToken;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
-    List<WalletClass> walletList = new ArrayList<WalletClass>();
-
     private FirebaseAuth mAuth;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+    List<WalletClass> walletList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         findViewById(R.id.createWallet).setOnClickListener(this);
-        findViewById(R.id.saveButton).setOnClickListener(this);
+        findViewById(R.id.checkWallets).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -86,10 +86,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.createWallet:
                 Intent intent = new Intent(MainActivity.this, createWalletActivity.class);
                 startActivityForResult(intent, 1);
+                break;
 
-            case R.id.saveButton:
-                save();
-                getDir();
+            case R.id.checkWallets:
+                    Toast.makeText(getApplicationContext(), "Number of wallets: " + walletList.size(), Toast.LENGTH_SHORT).show();
+                    break;
         }
     }
 
@@ -135,15 +136,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void getDir()
-    {
-        String path = getApplicationContext().getFilesDir().getPath();
-
-        File file = new File(path + "fileName");
-
-        Toast.makeText(getApplicationContext(), "path: " + file, Toast.LENGTH_LONG).show();
-    }
-
     public void load()
     {
         String filename = "userSaveFile";
@@ -154,13 +146,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
 
             StringBuilder data = new StringBuilder();
-            String line = null;
-
-            line = reader.readLine();
+            String line = reader.readLine();
 
             while (line != null)
             {
                 data.append(line).append("\n");
+                break;
             }
 
             reader.close();
@@ -168,6 +159,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             Type walletListType = new TypeToken<ArrayList<WalletClass>>(){}.getType();
             walletList = new Gson().fromJson(data.toString(), walletListType);
+
+            Log.e("load json", "" + data);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
