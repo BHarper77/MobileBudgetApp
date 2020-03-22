@@ -93,16 +93,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         viewPager = findViewById(R.id.pager);
         adapter  = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(adapter);
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-
-        // TODO: Dynamically create fragments, finish
         for (int i = 0; i < walletList.size(); i++)
         {
             WalletClass object = walletList.get(i);
-            viewPagerAdapter.addFragment(new fragment(), object);
+            adapter.addFragment(new fragment(), object);
         }
+
+        viewPager.setAdapter(adapter);
     }
 
     @Override
@@ -131,6 +129,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             WalletClass resultWallet = (WalletClass)data.getSerializable("walletClass");
 
             walletList.add(resultWallet);
+
+            loadUI();
         }
     }
 

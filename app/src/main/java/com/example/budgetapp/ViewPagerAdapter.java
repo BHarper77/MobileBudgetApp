@@ -22,16 +22,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
     @Override
     public fragment getItem(int position)
     {
-        /*fragment fragment = new fragment();
-        position = position + 1;
-
-        Bundle bundle = new Bundle();
-        bundle.putString("message", "Fragment: " + position);
-
-        fragment.setArguments(bundle);
-
-        return fragment;*/
-
         return fragmentList.get(position);
     }
 
@@ -54,11 +44,10 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
     }
 
     @Nullable
-    @Override
-    public CharSequence getPageTitle(int position)
+    public CharSequence getPageTitle(int position, String name)
     {
         position = position + 1;
 
-        return "Fragment: " + position;
+        return name;
     }
 }
