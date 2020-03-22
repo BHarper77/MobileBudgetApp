@@ -1,28 +1,23 @@
 package com.example.budgetapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.Serializable;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,14 +64,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else
         {
             setContentView(R.layout.activity_main);
-            loadUI();
+            loadFragments();
         }
 
         tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
 
         findViewById(R.id.createWallet).setOnClickListener(this);
-        findViewById(R.id.checkWallets).setOnClickListener(this);
+        findViewById(R.id.currentFragment).setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
     }
@@ -89,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         saveFile();
     }
 
-    public void loadUI()
+    public void loadFragments()
     {
         viewPager = findViewById(R.id.pager);
         adapter  = new ViewPagerAdapter(getSupportFragmentManager());
@@ -113,10 +108,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivityForResult(intent, 1);
                 break;
 
-            case R.id.checkWallets:
-                    Toast.makeText(getApplicationContext(), "Number of wallets: " + walletList.size(), Toast.LENGTH_SHORT).show();
-                    break;
+            case R.id.currentFragment:
+                Toast.makeText(getApplicationContext(), "" + getVisibleFragment(), Toast.LENGTH_LONG).show();
+                break;
         }
+    }
+
+    public int getVisibleFragment()
+    {
+        FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
+        List<Fragment> fragments = fragmentManager.getFragments();
+
+        Toast.makeText(getApplicationContext(), "" + fragmentManager.getFragments().size(), Toast.LENGTH_SHORT).show();
+
+        for (int i = 0; i < fragments.size(); i++)
+        {
+            if (fragments.get(i).isVisible() && fragments != null)
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     //Retrieving new created wallet from createWallet activity
@@ -130,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             walletList.add(resultWallet);
 
-            loadUI();
+            loadFragments();
         }
     }
 

@@ -9,7 +9,9 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" >
+
+    </androidx.viewpager.widget.ViewPager>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
@@ -32,14 +34,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/checkWallets"
+        android:id="@+id/currentFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onClick"
-        android:text="Number of wallets"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Current Fragment"
+        app:layout_constraintBottom_toBottomOf="@+id/createWallet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createWallet" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
@@ -13,6 +14,8 @@ import java.util.List;
 public class ViewPagerAdapter extends FragmentPagerAdapter
 {
     List<fragment> fragmentList = new ArrayList<>();
+    List<String> fragmentNameList = new ArrayList<>();
+    List<Integer> fragmentBalanceList = new ArrayList<>();
 
     public ViewPagerAdapter(FragmentManager fm)
     {
@@ -28,13 +31,12 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
     public void addFragment (fragment fragment, WalletClass wallet)
     {
         fragmentList.add(fragment);
+        fragmentNameList.add(wallet.getWalletName());
     }
 
     public void removeFragment (fragment fragment)
     {
         fragmentList.remove(fragment);
-
-        //fragmentList.remove(getItemPosition(fragment));
     }
 
     @Override
@@ -44,10 +46,14 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
     }
 
     @Nullable
-    public CharSequence getPageTitle(int position, String name)
+    public CharSequence getPageTitle(int position)
     {
-        position = position + 1;
+        return fragmentNameList.get(position);
+    }
 
-        return name;
+    @Nullable
+    public int getFragmentBalance (int position)
+    {
+        return fragmentBalanceList.get(position);
     }
 }
