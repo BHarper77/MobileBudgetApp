@@ -3,6 +3,7 @@ package com.example.budgetapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.fragment.app.Fragment;
@@ -22,6 +23,18 @@ public class fragment extends Fragment
         // Required empty public constructor
     }
 
+    public fragment newInstance(WalletClass wallet)
+    {
+        fragment frag = new fragment();
+        Bundle bundle = new Bundle();
+
+        bundle.putString("walletName", wallet.getWalletName());
+        bundle.putInt("walletBalance", wallet.getBalance());
+
+        frag.setArguments(bundle);
+        return frag;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -31,4 +44,14 @@ public class fragment extends Fragment
         return view;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+
+        Bundle bundle = getArguments();
+
+        //TextView walletName = getView().findViewById(R.id.walletName);
+        //walletName.setText(bundle.getString("walletName"));
+    }
 }

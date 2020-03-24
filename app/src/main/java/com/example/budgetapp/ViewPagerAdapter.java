@@ -1,5 +1,6 @@
 package com.example.budgetapp;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -15,11 +16,13 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
 {
     List<fragment> fragmentList = new ArrayList<>();
     List<String> fragmentNameList = new ArrayList<>();
-    List<Integer> fragmentBalanceList = new ArrayList<>();
 
-    public ViewPagerAdapter(FragmentManager fm)
+    private Context context;
+
+    public ViewPagerAdapter(FragmentManager fm, Context context)
     {
         super(fm);
+        this.context = context;
     }
 
     @Override
@@ -30,6 +33,11 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
 
     public void addFragment (fragment fragment, WalletClass wallet)
     {
+        Bundle bundle = new Bundle();
+        bundle.putString("walletName", wallet.getWalletName());
+        bundle.putInt("walletBalance", wallet.getBalance());
+        fragment.setArguments(bundle);
+
         fragmentList.add(fragment);
         fragmentNameList.add(wallet.getWalletName());
     }
@@ -49,11 +57,5 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
     public CharSequence getPageTitle(int position)
     {
         return fragmentNameList.get(position);
-    }
-
-    @Nullable
-    public int getFragmentBalance (int position)
-    {
-        return fragmentBalanceList.get(position);
     }
 }

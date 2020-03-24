@@ -3,6 +3,7 @@ package com.example.budgetapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
@@ -67,13 +68,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             loadFragments();
         }
 
-        tabLayout = findViewById(R.id.tabLayout);
+        ViewPager viewPager = findViewById(R.id.pager);
+        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), MainActivity.this));
+
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
 
-        findViewById(R.id.createWallet).setOnClickListener(this);
-        findViewById(R.id.currentFragment).setOnClickListener(this);
-
         mAuth = FirebaseAuth.getInstance();
+
+        findViewById(R.id.createWallet).setOnClickListener(this);
     }
 
     @Override
@@ -84,18 +87,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         saveFile();
     }
 
-    public void loadFragments()
-    {
-        viewPager = findViewById(R.id.pager);
-        adapter  = new ViewPagerAdapter(getSupportFragmentManager());
+    public void loadFragments() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         for (int i = 0; i < walletList.size(); i++)
         {
             WalletClass object = walletList.get(i);
-            adapter.addFragment(new fragment(), object);
+            //adapter.addFragment(new fragment(), object);
+
+            fragmentTransaction.add(R.id.pager, new fragment().newInstance(object), "fragment" + i);
         }
 
-        viewPager.setAdapter(adapter);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -116,10 +119,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public int getVisibleFragment()
     {
-        FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         List<Fragment> fragments = fragmentManager.getFragments();
-
-        Toast.makeText(getApplicationContext(), "" + fragmentManager.getFragments().size(), Toast.LENGTH_SHORT).show();
 
         for (int i = 0; i < fragments.size(); i++)
         {
