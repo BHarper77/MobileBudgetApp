@@ -69,7 +69,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         ViewPager viewPager = findViewById(R.id.pager);
-        viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), MainActivity.this));
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), MainActivity.this);
+        viewPager.setAdapter(viewPagerAdapter);
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
@@ -87,18 +88,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         saveFile();
     }
 
-    public void loadFragments() {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+    public void loadFragments()
+    {
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), MainActivity.this);
 
         for (int i = 0; i < walletList.size(); i++)
         {
             WalletClass object = walletList.get(i);
-            //adapter.addFragment(new fragment(), object);
 
-            fragmentTransaction.add(R.id.pager, new fragment().newInstance(object), "fragment" + i);
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragment frag = new fragment().newInstance(object);
+            fragmentTransaction.add(R.id.pager, frag, "fragment" + i);
+            viewPagerAdapter.addFragment(frag);
+            fragmentTransaction.commit();
+            viewPagerAdapter.notifyDataSetChanged();
         }
-
-        fragmentTransaction.commit();
     }
 
     @Override
@@ -122,7 +126,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FragmentManager fragmentManager = getSupportFragmentManager();
         List<Fragment> fragments = fragmentManager.getFragments();
 
-        for (int i = 0; i < fragments.size(); i++)
+        return fragments.size();
+
+        /*for (int i = 0; i < fragments.size(); i++)
         {
             if (fragments.get(i).isVisible() && fragments != null)
             {
@@ -130,17 +136,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        return -1;
+        return -1;*/
     }
 
     //Retrieving new created wallet from createWallet activity
     protected void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
+        super.onActivityResult(requestCode, resultCode, intent);
+
         if (requestCode == 1 && resultCode == RESULT_OK)
         {
             //Retriving bundle and extracting data
             Bundle data = intent.getExtras();
-            WalletClass resultWallet = (WalletClass)data.getSerializable("walletClass");
+            WalletClass resultWallet = (WalletClass) data.getSerializable("walletClass");
 
             walletList.add(resultWallet);
 

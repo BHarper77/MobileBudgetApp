@@ -2,6 +2,7 @@ package com.example.budgetapp;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -31,15 +32,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
         return fragmentList.get(position);
     }
 
-    public void addFragment (fragment fragment, WalletClass wallet)
+    public void addFragment (fragment fragment)
     {
-        Bundle bundle = new Bundle();
-        bundle.putString("walletName", wallet.getWalletName());
-        bundle.putInt("walletBalance", wallet.getBalance());
-        fragment.setArguments(bundle);
-
         fragmentList.add(fragment);
-        fragmentNameList.add(wallet.getWalletName());
     }
 
     public void removeFragment (fragment fragment)
