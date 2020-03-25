@@ -1,7 +1,5 @@
 package com.example.budgetapp;
 
-import android.content.Context;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -14,12 +12,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
     List<fragment> fragmentList = new ArrayList<>();
     List<String> fragmentNameList = new ArrayList<>();
 
-    private Context context;
-
-    public ViewPagerAdapter(FragmentManager fm, Context context)
+    public ViewPagerAdapter(FragmentManager fm)
     {
         super(fm);
-        this.context = context;
     }
 
     @Override
@@ -28,9 +23,10 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
         return fragmentList.get(position);
     }
 
-    public void addFragment (fragment fragment)
+    public void addFragment (fragment fragment, String name)
     {
         fragmentList.add(fragment);
+        fragmentNameList.add(name);
     }
 
     public void removeFragment (fragment fragment)

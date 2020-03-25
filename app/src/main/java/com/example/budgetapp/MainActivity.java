@@ -7,8 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -32,15 +30,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
-    public abstract class subClass extends DynamicFragmentPagerAdapter.FragmentIdentifier
-    {
-        public subClass(@NonNull String fragmentTag, @Nullable Bundle args)
-        {
-            super(fragmentTag, args);
-        }
-    }
-
-
     private FirebaseAuth mAuth;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -49,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ViewPager viewPager;
     private ViewPagerAdapter adapter;
     private TabLayout tabLayout;
+
+    ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -77,9 +68,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             loadFragments();
         }
 
-        TabLayout tabLayout = findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(viewPager);
-
         mAuth = FirebaseAuth.getInstance();
 
         findViewById(R.id.createWallet).setOnClickListener(this);
@@ -95,43 +83,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void loadFragments()
     {
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), MainActivity.this);
-        DynamicFragmentPagerAdapter dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getSupportFragmentManager());
-
-        Bundle bundle = new Bundle();
-        bundle.putString("string", "test2");
-
-        dynamicFragmentPagerAdapter.addFragment(new DynamicFragmentPagerAdapter.FragmentIdentifier("test1", bundle)
-        {
-            @Override
-            protected Fragment createFragment()
-            {
-                return null;
-            }
-
-            @Override
-            public int describeContents()
-            {
-                return 0;
-            }
-        });
-
         ViewPager viewPager = findViewById(R.id.pager);
         viewPager.setAdapter(viewPagerAdapter);
-        viewPagerAdapter.notifyDataSetChanged();
 
-        /*for (int i = 0; i < walletList.size(); i++)
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
+
+        for (int i = 0; i < walletList.size(); i++)
         {
             WalletClass object = walletList.get(i);
 
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-
-            fragment frag = new fragment().newInstance(object);
-            fragmentTransaction.add(R.id.pager, frag, "fragment" + i);
-
-            fragmentTransaction.commit();
+            viewPagerAdapter.addFragment(new fragment().newInstance(object), object.getWalletName());
             viewPagerAdapter.notifyDataSetChanged();
-        }*/
+            viewPager.setAdapter(viewPagerAdapter);
+        }
     }
 
     @Override
@@ -150,12 +115,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+
     public int getVisibleFragment()
     {
         FragmentManager fragmentManager = getSupportFragmentManager();
         List<Fragment> fragments = fragmentManager.getFragments();
 
-        return fragments.size();
+        //return fragments.size();
+
+        return viewPagerAdapter.fragmentList.size();
 
         /*for (int i = 0; i < fragments.size(); i++)
         {
