@@ -1,17 +1,24 @@
 package com.example.budgetapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -23,15 +30,17 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
+    public abstract class subClass extends DynamicFragmentPagerAdapter.FragmentIdentifier
+    {
+        public subClass(@NonNull String fragmentTag, @Nullable Bundle args)
+        {
+            super(fragmentTag, args);
+        }
+    }
+
+
     private FirebaseAuth mAuth;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -68,10 +77,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             loadFragments();
         }
 
-        ViewPager viewPager = findViewById(R.id.pager);
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), MainActivity.this);
-        viewPager.setAdapter(viewPagerAdapter);
-
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -91,18 +96,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void loadFragments()
     {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), MainActivity.this);
+        DynamicFragmentPagerAdapter dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getSupportFragmentManager());
 
-        for (int i = 0; i < walletList.size(); i++)
+        Bundle bundle = new Bundle();
+        bundle.putString("string", "test2");
+
+        dynamicFragmentPagerAdapter.addFragment(new DynamicFragmentPagerAdapter.FragmentIdentifier("test1", bundle)
+        {
+            @Override
+            protected Fragment createFragment()
+            {
+                return null;
+            }
+
+            @Override
+            public int describeContents()
+            {
+                return 0;
+            }
+        });
+
+        ViewPager viewPager = findViewById(R.id.pager);
+        viewPager.setAdapter(viewPagerAdapter);
+        viewPagerAdapter.notifyDataSetChanged();
+
+        /*for (int i = 0; i < walletList.size(); i++)
         {
             WalletClass object = walletList.get(i);
 
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
             fragment frag = new fragment().newInstance(object);
             fragmentTransaction.add(R.id.pager, frag, "fragment" + i);
-            viewPagerAdapter.addFragment(frag);
+
             fragmentTransaction.commit();
             viewPagerAdapter.notifyDataSetChanged();
-        }
+        }*/
     }
 
     @Override
@@ -151,8 +180,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             WalletClass resultWallet = (WalletClass) data.getSerializable("walletClass");
 
             walletList.add(resultWallet);
-
-            loadFragments();
         }
     }
 
