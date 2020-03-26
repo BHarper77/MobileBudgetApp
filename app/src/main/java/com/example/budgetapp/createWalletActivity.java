@@ -1,14 +1,12 @@
 package com.example.budgetapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class createWalletActivity extends AppCompatActivity implements  View.OnClickListener
 {
@@ -17,9 +15,8 @@ public class createWalletActivity extends AppCompatActivity implements  View.OnC
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_wallet);
-        
-        Button submit = findViewById(R.id.submit);
-        submit.setOnClickListener(this);
+
+        findViewById(R.id.submit).setOnClickListener(this);
     }
 
     @Override

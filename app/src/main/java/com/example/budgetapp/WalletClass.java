@@ -1,10 +1,6 @@
 package com.example.budgetapp;
 
-import android.os.Parcelable;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class WalletClass implements Serializable
 {
@@ -17,6 +13,7 @@ public class WalletClass implements Serializable
         this.walletName = walletName;
         this.balance = balance;
     }
+
     public String getWalletName()
     {
         return walletName;

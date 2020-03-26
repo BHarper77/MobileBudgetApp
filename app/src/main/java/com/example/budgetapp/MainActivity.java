@@ -5,13 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
+    View view;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -57,28 +62,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         loadFile();
 
-        //Checking if user has wallets
-        if (walletList.isEmpty())
+        if (checkWalletsList())
         {
-            setContentView(R.layout.default_home);
-        }
-        else
-        {
-            setContentView(R.layout.activity_main);
             loadFragments();
         }
 
         mAuth = FirebaseAuth.getInstance();
-
-        findViewById(R.id.createWallet).setOnClickListener(this);
     }
 
-    @Override
-    protected void onDestroy()
+    public boolean checkWalletsList()
     {
-        super.onDestroy();
+        //Checking if user has wallets
+        if (walletList.isEmpty())
+        {
+            View noWalletsLayout = getLayoutInflater().inflate(R.layout.default_home, null);
+            setContentView(noWalletsLayout);
+            noWalletsLayout.findViewById(R.id.createFirstWallet).setOnClickListener(this);
 
-        saveFile();
+            return false;
+        }
+        else
+        {
+            View walletsLayout = getLayoutInflater().inflate(R.layout.activity_main, null);
+            setContentView(walletsLayout);
+
+            walletsLayout.findViewById(R.id.createWallet).setOnClickListener(this);
+            walletsLayout.findViewById(R.id.logOut).setOnClickListener(this);
+
+            return true;
+        }
     }
 
     public void loadFragments()
@@ -89,33 +101,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
 
-        for (int i = 0; i < walletList.size(); i++)
+        if (viewPagerAdapter.fragmentList.size() == walletList.size())
         {
-            WalletClass object = walletList.get(i);
+            for (int i = 0; i < walletList.size(); i++)
+            {
+                WalletClass object = walletList.get(i);
 
-            viewPagerAdapter.addFragment(new fragment().newInstance(object), object.getWalletName());
+                viewPagerAdapter.addFragment(new fragment().newInstance(object), object.getWalletName());
+                viewPagerAdapter.notifyDataSetChanged();
+                viewPager.setAdapter(viewPagerAdapter);
+            }
+        }
+        else if (viewPagerAdapter.fragmentList.size() > walletList.size())
+        {
             viewPagerAdapter.notifyDataSetChanged();
             viewPager.setAdapter(viewPagerAdapter);
         }
     }
 
     @Override
-    public void onClick(View v)
+    public void onClick(View view)
     {
-        switch (v.getId())
+        switch (view.getId())
         {
             case R.id.createWallet:
-                Intent intent = new Intent(MainActivity.this, createWalletActivity.class);
-                startActivityForResult(intent, 1);
+            case R.id.createFirstWallet:
+                Intent intentTwo = new Intent(MainActivity.this, createWalletActivity.class);
+                startActivityForResult(intentTwo, 1);
                 break;
 
-            case R.id.currentFragment:
-                Toast.makeText(getApplicationContext(), "" + getVisibleFragment(), Toast.LENGTH_LONG).show();
+            case R.id.logOut:
+                signOut();
                 break;
+
         }
     }
 
-
+    public void signOut()
+    {
+        AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener(new OnCompleteListener<Void>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task)
+                    {
+                        Log.e("Log out", "user logged out");
+                        Intent intent = new Intent(MainActivity.this, loginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+    }
 
     public int getVisibleFragment()
     {
@@ -149,35 +186,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             WalletClass resultWallet = (WalletClass) data.getSerializable("walletClass");
 
             walletList.add(resultWallet);
-        }
-    }
 
-    public void saveFile()
-    {
-        String filename = "userSaveFile";
+            checkWalletsList();
 
-        Gson gson = new Gson();
-        String data = gson.toJson(walletList);
-
-        Log.e("walletListJSon", data);
-
-        FileOutputStream fos = null;
-
-        try {
-            fos = openFileOutput(filename, Context.MODE_PRIVATE);
-
-            fos.write(data.getBytes());
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            viewPagerAdapter.addFragment(new fragment().newInstance(resultWallet), resultWallet.getWalletName());
         }
     }
 
     public void loadFile()
     {
-        String filename = "userSaveFile";
+        String filename = currentUser.getUid();
 
         try {
             FileInputStream fis = openFileInput(filename);
@@ -205,5 +223,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void saveFile()
+    {
+        String filename = currentUser.getUid();
+
+        Gson gson = new Gson();
+        String data = gson.toJson(walletList);
+
+        Log.e("walletListJSon", data);
+
+        FileOutputStream fos = null;
+
+        try {
+            fos = openFileOutput(filename, Context.MODE_PRIVATE);
+
+            fos.write(data.getBytes());
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+
+        saveFile();
     }
 }

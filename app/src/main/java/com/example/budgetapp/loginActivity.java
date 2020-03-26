@@ -60,7 +60,11 @@ public class loginActivity extends AppCompatActivity
 
         // Create and launch sign-in intent
         startActivityForResult(
-                AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(providers).build(), RC_SIGN_IN);
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(providers)
+                        .setIsSmartLockEnabled(false)
+                        .build(), RC_SIGN_IN);
     }
 
     @Override
@@ -68,12 +72,15 @@ public class loginActivity extends AppCompatActivity
     {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Log.e("test", "onActivityResult called");
+
         if (requestCode == RC_SIGN_IN)
         {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
             if (resultCode == RESULT_OK)
             {
+                Log.e("Success", "login success");
                 //Success
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
