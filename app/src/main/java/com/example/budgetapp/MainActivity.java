@@ -38,14 +38,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     List<WalletClass> walletList = new ArrayList<>();
 
-    private ViewPager viewPager;
-    private ViewPagerAdapter adapter;
-    private TabLayout tabLayout;
-
-    ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-
-    View view;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -62,60 +54,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         loadFile();
 
-        if (checkWalletsList())
-        {
-            loadFragments();
-        }
-
         mAuth = FirebaseAuth.getInstance();
     }
 
     public boolean checkWalletsList()
     {
-        //Checking if user has wallets
         if (walletList.isEmpty())
         {
-            View noWalletsLayout = getLayoutInflater().inflate(R.layout.default_home, null);
-            setContentView(noWalletsLayout);
-            noWalletsLayout.findViewById(R.id.createFirstWallet).setOnClickListener(this);
-
             return false;
         }
         else
         {
-            View walletsLayout = getLayoutInflater().inflate(R.layout.activity_main, null);
-            setContentView(walletsLayout);
-
-            walletsLayout.findViewById(R.id.createWallet).setOnClickListener(this);
-            walletsLayout.findViewById(R.id.logOut).setOnClickListener(this);
-
             return true;
-        }
-    }
-
-    public void loadFragments()
-    {
-        ViewPager viewPager = findViewById(R.id.pager);
-        viewPager.setAdapter(viewPagerAdapter);
-
-        TabLayout tabLayout = findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(viewPager);
-
-        if (viewPagerAdapter.fragmentList.size() == walletList.size())
-        {
-            for (int i = 0; i < walletList.size(); i++)
-            {
-                WalletClass object = walletList.get(i);
-
-                viewPagerAdapter.addFragment(new fragment().newInstance(object), object.getWalletName());
-                viewPagerAdapter.notifyDataSetChanged();
-                viewPager.setAdapter(viewPagerAdapter);
-            }
-        }
-        else if (viewPagerAdapter.fragmentList.size() > walletList.size())
-        {
-            viewPagerAdapter.notifyDataSetChanged();
-            viewPager.setAdapter(viewPagerAdapter);
         }
     }
 
@@ -125,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId())
         {
             case R.id.createWallet:
-            case R.id.createFirstWallet:
                 Intent intentTwo = new Intent(MainActivity.this, createWalletActivity.class);
                 startActivityForResult(intentTwo, 1);
                 break;
@@ -154,26 +103,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
     }
 
-    public int getVisibleFragment()
-    {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        List<Fragment> fragments = fragmentManager.getFragments();
-
-        //return fragments.size();
-
-        return viewPagerAdapter.fragmentList.size();
-
-        /*for (int i = 0; i < fragments.size(); i++)
-        {
-            if (fragments.get(i).isVisible() && fragments != null)
-            {
-                return i;
-            }
-        }
-
-        return -1;*/
-    }
-
     //Retrieving new created wallet from createWallet activity
     protected void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
@@ -186,10 +115,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             WalletClass resultWallet = (WalletClass) data.getSerializable("walletClass");
 
             walletList.add(resultWallet);
-
-            checkWalletsList();
-
-            viewPagerAdapter.addFragment(new fragment().newInstance(resultWallet), resultWallet.getWalletName());
         }
     }
 

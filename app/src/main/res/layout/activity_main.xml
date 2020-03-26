@@ -6,24 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="4dp"
-        android:minHeight="?attr/actionBarSize"
-        android:background="@color/colorTest"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tabGravity="fill"
-        app:tabMode="fixed" />
-
     <Button
         android:id="@+id/createWallet"
         android:layout_width="wrap_content"
@@ -40,7 +22,7 @@
         android:layout_height="wrap_content"
         android:onClick="onClick"
         android:text="Log out"
-        app:layout_constraintBottom_toBottomOf="@+id/pager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/createWallet"
         app:layout_constraintStart_toStartOf="@+id/createWallet"
         app:layout_constraintTop_toBottomOf="@+id/createWallet" />
