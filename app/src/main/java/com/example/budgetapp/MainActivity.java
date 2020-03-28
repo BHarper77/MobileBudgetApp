@@ -4,20 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager.widget.ViewPager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -31,17 +33,31 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener
+public class MainActivity extends AppCompatActivity
 {
     private FirebaseAuth mAuth;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
     List<WalletClass> walletList = new ArrayList<>();
 
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        recyclerView = findViewById(R.id.recyclerView);
+
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+
+        mAdapter = new recyclerViewAdapter(walletList);
+        recyclerView.setAdapter(mAdapter);
 
         //Check user logged in
         if (currentUser == null)
@@ -57,6 +73,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAuth = FirebaseAuth.getInstance();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+
+        inflater.inflate(R.menu.options_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.createWallet:
+                Intent intentTwo = new Intent(MainActivity.this, createWalletActivity.class);
+                startActivityForResult(intentTwo, 1);
+                break;
+
+            case R.id.settings:
+                //TODO: Create settings activity, storing settings used shared prefs
+                //settings activity
+                break;
+
+            case R.id.logOut:
+                signOut();
+                break;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     public boolean checkWalletsList()
     {
         if (walletList.isEmpty())
@@ -66,23 +118,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else
         {
             return true;
-        }
-    }
-
-    @Override
-    public void onClick(View view)
-    {
-        switch (view.getId())
-        {
-            case R.id.createWallet:
-                Intent intentTwo = new Intent(MainActivity.this, createWalletActivity.class);
-                startActivityForResult(intentTwo, 1);
-                break;
-
-            case R.id.logOut:
-                signOut();
-                break;
-
         }
     }
 
@@ -103,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
     }
 
-    //Retrieving new created wallet from createWallet activity
     protected void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
         super.onActivityResult(requestCode, resultCode, intent);
