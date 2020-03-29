@@ -25,7 +25,7 @@ public class createWalletActivity extends AppCompatActivity implements  View.OnC
         EditText walletName = findViewById(R.id.walletName);
         EditText walletBalance = findViewById(R.id.walletBalance);
 
-        if (validate() == true)
+        if (validate())
         {
             int balance = Integer.parseInt(walletBalance.getText().toString());
 

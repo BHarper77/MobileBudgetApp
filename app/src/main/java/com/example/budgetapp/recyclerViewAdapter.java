@@ -68,7 +68,7 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
         //Casting payloads to WalletClass list
         holder.walletNameView.setText(adapterDataset.get(position).getWalletName());
 
-        holder.walletBalanceView.setText("" + adapterDataset.get(position).getBalance());
+        holder.walletBalanceView.setText("£" + adapterDataset.get(position).getBalance());
     }
 
     @Override
