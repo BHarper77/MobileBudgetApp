@@ -33,7 +33,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements recyclerViewAdapter.OnWalletListener
 {
     private FirebaseAuth mAuth;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity
 
         loadFile();
 
-        mAdapter = new recyclerViewAdapter(walletList);
+        mAdapter = new recyclerViewAdapter(walletList, this);
         recyclerView.setAdapter(mAdapter);
 
         mAuth = FirebaseAuth.getInstance();
@@ -151,6 +151,14 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onWalletClick(int position)
+    {
+        Intent intent = new Intent(MainActivity.this, WalletHome.class);
+        intent.putExtra("wallet", walletList.get(position));
+        startActivity(intent);
+    }
+
     public void loadFile()
     {
         String filename = currentUser.getUid();
@@ -175,7 +183,7 @@ public class MainActivity extends AppCompatActivity
             Type walletListType = new TypeToken<ArrayList<WalletClass>>(){}.getType();
             walletList = new Gson().fromJson(data.toString(), walletListType);
 
-            Log.e("load json", "" + data);
+            Log.d("Load File", "" + data);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -190,7 +198,7 @@ public class MainActivity extends AppCompatActivity
         Gson gson = new Gson();
         String data = gson.toJson(walletList);
 
-        Log.e("walletListJSon", data);
+        Log.d("Save File", data);
 
         FileOutputStream fos = null;
 

@@ -13,24 +13,43 @@ import java.util.List;
 public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapter.MyViewHolder>
 {
     private List<WalletClass> adapterDataset;
+    private OnWalletListener mOnWalletListener;
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         public TextView walletNameView;
         public TextView walletBalanceView;
+        OnWalletListener onWalletListener;
 
-        public MyViewHolder (View view)
+        public MyViewHolder (View view, OnWalletListener onWalletListener)
         {
             super(view);
 
             walletNameView = view.findViewById(R.id.walletName);
             walletBalanceView = view.findViewById(R.id.walletBalance);
+
+            //Setting listener to each ViewHolder that is created
+            this.onWalletListener = onWalletListener;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view)
+        {
+            onWalletListener.onWalletClick(getAdapterPosition());
         }
     }
 
-    public recyclerViewAdapter (List<WalletClass> myDataset)
+    //Listener for recyclerView, whatever wallet is selected
+    public interface OnWalletListener
+    {
+        void onWalletClick (int position);
+    }
+
+    public recyclerViewAdapter (List<WalletClass> myDataset, OnWalletListener onWalletListener)
     {
         adapterDataset = myDataset;
+        this.mOnWalletListener = onWalletListener;
     }
 
     @NonNull
@@ -40,9 +59,7 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
         //Create new view
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_layout, parent, false);
 
-        MyViewHolder vh = new MyViewHolder(view);
-
-        return vh;
+        return new MyViewHolder(view, mOnWalletListener);
     }
 
     @Override
