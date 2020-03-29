@@ -20,5 +20,7 @@ public class WalletHome extends AppCompatActivity
 
         TextView walletName = findViewById(R.id.walletHomeName);
         walletName.setText(wallet.getWalletName());
+
+        //TODO: Design walletHome layout
     }
 }
