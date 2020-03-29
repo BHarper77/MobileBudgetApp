@@ -1,6 +1,7 @@
 package com.example.budgetapp;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -18,11 +19,12 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
         public TextView walletNameView;
         public TextView walletBalanceView;
 
-        public MyViewHolder (TextView name)
+        public MyViewHolder (View view)
         {
-            super(name);
+            super(view);
 
-            walletNameView = name;
+            walletNameView = view.findViewById(R.id.walletName);
+            walletBalanceView = view.findViewById(R.id.walletBalance);
         }
     }
 
@@ -36,9 +38,9 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
     public recyclerViewAdapter.MyViewHolder onCreateViewHolder (@NonNull ViewGroup parent, int viewType)
     {
         //Create new view
-        TextView name = (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_layout, parent, false);
 
-        MyViewHolder vh = new MyViewHolder(name);
+        MyViewHolder vh = new MyViewHolder(view);
 
         return vh;
     }
@@ -48,7 +50,8 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
     {
         //Casting payloads to WalletClass list
         holder.walletNameView.setText(adapterDataset.get(position).getWalletName());
-        holder.walletBalanceView.setText(adapterDataset.get(position).getBalance());
+
+        holder.walletBalanceView.setText("" + adapterDataset.get(position).getBalance());
     }
 
     @Override

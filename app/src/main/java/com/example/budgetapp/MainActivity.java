@@ -55,10 +55,6 @@ public class MainActivity extends AppCompatActivity
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-
-        mAdapter = new recyclerViewAdapter(walletList);
-        recyclerView.setAdapter(mAdapter);
-
         //Check user logged in
         if (currentUser == null)
         {
@@ -69,6 +65,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         loadFile();
+
+        mAdapter = new recyclerViewAdapter(walletList);
+        recyclerView.setAdapter(mAdapter);
 
         mAuth = FirebaseAuth.getInstance();
     }
