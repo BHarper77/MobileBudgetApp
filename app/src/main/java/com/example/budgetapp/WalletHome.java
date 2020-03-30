@@ -1,12 +1,15 @@
 package com.example.budgetapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class WalletHome extends AppCompatActivity implements View.OnClickListener
+public class WalletHome extends AppCompatActivity implements View.OnClickListener, withdrawDialog.DialogListener
 {
     WalletClass wallet;
 
@@ -46,9 +49,32 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
     private void withdraw()
     {
         //TODO: Design dialogue box for withdrawing and depositing
+
+        new withdrawDialog().show(getSupportFragmentManager(), "WithdrawDialog");
     }
 
     private void deposit()
+    {
+
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialogFragment, Bundle bundle)
+    {
+        String type = "withdraw";
+        int id = 1;
+
+        double amount = bundle.getDouble("amount");
+        boolean recurring = bundle.getBoolean("recurring");
+        String reference = bundle.getString("reference");
+
+        WalletClass.Transactions transaction = new WalletClass.Transactions(id, type, amount, recurring, reference);
+
+        wallet.transactions.add(transaction);
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialogFragment)
     {
 
     }
