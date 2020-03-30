@@ -30,18 +30,21 @@ public class WalletClass implements Serializable
         return balance;
     }
 
+    public void setBalance(double balance)
+    {
+        this.balance = balance;
+    }
+
     public static class Transactions
     {
-        private int id;
         private double amount;
         private @Nullable String reference, type;
         private boolean recurring;
 
 
         //Constructor
-        public Transactions(int id, String type, double amount, boolean recurring, @Nullable String reference)
+        public Transactions(String type, double amount, boolean recurring, @Nullable String reference)
         {
-            this.id = id;
             this.type = type;
             this.amount = amount;
             this.recurring = recurring;
@@ -49,11 +52,6 @@ public class WalletClass implements Serializable
         }
 
         //Public methods
-        public int getId()
-        {
-            return id;
-        }
-
         public String getType()
         {
             return type;

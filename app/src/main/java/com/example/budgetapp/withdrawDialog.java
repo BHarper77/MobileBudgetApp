@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,9 +16,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 public class withdrawDialog extends DialogFragment
 {
+    private WalletClass wallet;
+    private String transactionType;
+    private double amount;
+
+    public withdrawDialog(WalletClass wallet,String transactionType)
+    {
+        this.wallet = wallet;
+        this.transactionType = transactionType;
+    }
+
     //Interface for clickListeners
     public interface DialogListener
     {
@@ -33,31 +45,34 @@ public class withdrawDialog extends DialogFragment
         //Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setView(getLayoutInflater().inflate(R.layout.dialog_layout, null));
+        //TODO: Fix this shit
+        TextView balanceText = getView().findViewById(R.id.balance);
+        balanceText.setText("£" + wallet.getBalance());
 
-        builder.setTitle("Withdraw")
-                .setPositiveButton("Submit", new DialogInterface.OnClickListener()
+        builder.setView(getLayoutInflater().inflate(R.layout.dialog_layout, null))
+        .setTitle(transactionType)
+        .setPositiveButton("Submit", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int id)
+            {
+                if (validate())
                 {
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        if (validate())
-                        {
-                            Bundle bundle = createBundle();
+                    Bundle bundle = createBundle();
 
-                            listener.onDialogPositiveClick(withdrawDialog.this, bundle);
-                        }
-                    }
-                })
+                    listener.onDialogPositiveClick(withdrawDialog.this, bundle);
+                }
+            }
+        })
 
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        listener.onDialogNegativeClick(withdrawDialog.this);
-                    }
-                });
+        .setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int id)
+            {
+                listener.onDialogNegativeClick(withdrawDialog.this);
+            }
+        });
 
-        // Create the AlertDialog object and return it
+        //Create the AlertDialog object and return it
         return builder.create();
     }
 
@@ -85,6 +100,7 @@ public class withdrawDialog extends DialogFragment
         CheckBox checkBox = getView().findViewById(R.id.recurringCheck);
 
         Bundle bundle = new Bundle();
+        bundle.putString("transactionType", transactionType);
         bundle.putDouble("amount", amount);
         bundle.putString("reference", reference);
 
@@ -102,18 +118,24 @@ public class withdrawDialog extends DialogFragment
 
     public boolean validate()
     {
-        EditText amount = getView().findViewById(R.id.amount);
-        String amountCheck = amount.getText().toString();
+        String amount = getView().findViewById(R.id.amount).toString();
 
-        EditText reference = getView().findViewById(R.id.reference);
-        String referenceCheck = reference.getText().toString();
-
-        if (TextUtils.isEmpty(amountCheck) || TextUtils.isEmpty(referenceCheck))
+        if (TextUtils.isEmpty(amount))
         {
+            Toast.makeText(getContext(), "Please fill out all required fields", Toast.LENGTH_SHORT).show();
+
             return false;
         }
 
-        Toast.makeText(getContext(), "Please fill out all required fields", Toast.LENGTH_SHORT).show();
+        if (transactionType == "Withdraw")
+        {
+            if (Double.parseDouble(amount) > wallet.getBalance())
+            {
+                Toast.makeText(getContext(), "Withdrawal amount is too large for selected wallet", Toast.LENGTH_SHORT).show();
+
+                return false;
+            }
+        }
 
         return false;
     }
