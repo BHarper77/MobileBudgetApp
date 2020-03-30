@@ -48,8 +48,6 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
 
     private void withdraw()
     {
-        //TODO: Design dialogue box for withdrawing and depositing
-
         new withdrawDialog().show(getSupportFragmentManager(), "WithdrawDialog");
     }
 
@@ -61,6 +59,7 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onDialogPositiveClick(DialogFragment dialogFragment, Bundle bundle)
     {
+        //TODO: Refactor dialog and transactions code
         String type = "withdraw";
         int id = 1;
 
