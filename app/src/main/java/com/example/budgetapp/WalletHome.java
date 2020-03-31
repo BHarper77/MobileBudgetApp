@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class WalletHome extends AppCompatActivity implements View.OnClickListener, withdrawDialog.DialogListener
+public class WalletHome extends AppCompatActivity implements View.OnClickListener, transactionDialog.DialogListener
 {
     private static final String TAG = "WalletHome";
     
@@ -53,12 +53,12 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
 
     private void withdraw()
     {
-        new withdrawDialog(wallet, "Withdraw").show(getSupportFragmentManager(), "Withdraw");
+        new transactionDialog(wallet, "Withdraw").show(getSupportFragmentManager(), "Withdraw");
     }
 
     private void deposit()
     {
-        new withdrawDialog(wallet, "Deposit").show(getSupportFragmentManager(), "Deposit");
+        new transactionDialog(wallet, "Deposit").show(getSupportFragmentManager(), "Deposit");
     }
 
     @Override

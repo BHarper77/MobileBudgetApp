@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -18,13 +19,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
-public class withdrawDialog extends DialogFragment
+public class transactionDialog extends DialogFragment
 {
+    private static final String TAG = "transactionDialog";
+
     private WalletClass wallet;
     private String transactionType;
     private double amount;
 
-    public withdrawDialog(WalletClass wallet,String transactionType)
+    public transactionDialog(WalletClass wallet,String transactionType)
     {
         this.wallet = wallet;
         this.transactionType = transactionType;
@@ -45,11 +48,18 @@ public class withdrawDialog extends DialogFragment
         //Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        //TODO: Fix this shit
-        TextView balanceText = getView().findViewById(R.id.balance);
-        balanceText.setText("£" + wallet.getBalance());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        builder.setView(getLayoutInflater().inflate(R.layout.dialog_layout, null))
+        View view = inflater.inflate(R.layout.dialog_layout, null);
+
+        Log.d(TAG, "onCreateDialog: Test1");
+
+        TextView balanceText = view.findViewById(R.id.balance);
+        balanceText.setText("Current Balance: £" + wallet.getBalance());
+
+        Log.d(TAG, "onCreateDialog: Test2");
+
+        builder.setView(inflater.inflate(R.layout.dialog_layout, null))
         .setTitle(transactionType)
         .setPositiveButton("Submit", new DialogInterface.OnClickListener()
         {
@@ -59,7 +69,7 @@ public class withdrawDialog extends DialogFragment
                 {
                     Bundle bundle = createBundle();
 
-                    listener.onDialogPositiveClick(withdrawDialog.this, bundle);
+                    listener.onDialogPositiveClick(transactionDialog.this, bundle);
                 }
             }
         })
@@ -68,7 +78,7 @@ public class withdrawDialog extends DialogFragment
         {
             public void onClick(DialogInterface dialog, int id)
             {
-                listener.onDialogNegativeClick(withdrawDialog.this);
+                listener.onDialogNegativeClick(transactionDialog.this);
             }
         });
 
