@@ -50,15 +50,6 @@ public class transactionDialog extends DialogFragment
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        View view = inflater.inflate(R.layout.dialog_layout, null);
-
-        Log.d(TAG, "onCreateDialog: Test1");
-
-        TextView balanceText = view.findViewById(R.id.balance);
-        balanceText.setText("Current Balance: £" + wallet.getBalance());
-
-        Log.d(TAG, "onCreateDialog: Test2");
-
         builder.setView(inflater.inflate(R.layout.dialog_layout, null))
         .setTitle(transactionType)
         .setPositiveButton("Submit", new DialogInterface.OnClickListener()
