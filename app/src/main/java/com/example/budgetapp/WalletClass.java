@@ -10,7 +10,7 @@ public class WalletClass implements Serializable
 {
     private String walletName;
     private double balance;
-    public List<Transactions> transactions = new ArrayList<>();
+    private List<Transactions> transactions = new ArrayList<>();
 
     //Constructor
     public WalletClass(String walletName, double balance)
@@ -35,12 +35,16 @@ public class WalletClass implements Serializable
         this.balance = balance;
     }
 
+    public void addTransaction(Transactions transaction)
+    {
+        this.transactions.add(transaction);
+    }
+
     public static class Transactions
     {
         private double amount;
         private @Nullable String reference, type;
         private boolean recurring;
-
 
         //Constructor
         public Transactions(String type, double amount, boolean recurring, @Nullable String reference)

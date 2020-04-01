@@ -49,16 +49,17 @@ public class transactionDialog extends DialogFragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View view = inflater.inflate(R.layout.dialog_layout, null);
 
-        builder.setView(inflater.inflate(R.layout.dialog_layout, null))
+        builder.setView(view)
         .setTitle(transactionType)
         .setPositiveButton("Submit", new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface dialog, int id)
             {
-                if (validate())
+                if (validate(view))
                 {
-                    Bundle bundle = createBundle();
+                    Bundle bundle = createBundle(view);
 
                     listener.onDialogPositiveClick(transactionDialog.this, bundle);
                 }
@@ -90,15 +91,15 @@ public class transactionDialog extends DialogFragment
         }
     }
 
-    public Bundle createBundle()
+    public Bundle createBundle(View view)
     {
-        EditText Amount = getView().findViewById(R.id.amount);
+        EditText Amount = view.findViewById(R.id.amount);
         double amount = Double.parseDouble(Amount.getText().toString());
 
-        EditText Reference = getView().findViewById(R.id.reference);
+        EditText Reference = view.findViewById(R.id.reference);
         String reference = Reference.toString();
 
-        CheckBox checkBox = getView().findViewById(R.id.recurringCheck);
+        CheckBox checkBox = view.findViewById(R.id.recurringCheck);
 
         Bundle bundle = new Bundle();
         bundle.putString("transactionType", transactionType);
@@ -117,9 +118,9 @@ public class transactionDialog extends DialogFragment
         return bundle;
     }
 
-    public boolean validate()
+    public boolean validate(View view)
     {
-        String amount = getView().findViewById(R.id.amount).toString();
+        String amount = view.findViewById(R.id.amount).toString();
 
         if (TextUtils.isEmpty(amount))
         {
@@ -138,6 +139,6 @@ public class transactionDialog extends DialogFragment
             }
         }
 
-        return false;
+        return true;
     }
 }

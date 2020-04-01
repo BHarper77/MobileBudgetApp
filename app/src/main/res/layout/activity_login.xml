@@ -7,6 +7,4 @@
     android:orientation="vertical"
     tools:context=".loginActivity"
     android:gravity="center_vertical">
-
-
 </LinearLayout>

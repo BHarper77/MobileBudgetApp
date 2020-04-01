@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -66,10 +67,18 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
 
         loadFile();
 
+        mAuth = FirebaseAuth.getInstance();
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
         mAdapter = new recyclerViewAdapter(walletList, this);
         recyclerView.setAdapter(mAdapter);
 
-        mAuth = FirebaseAuth.getInstance();
+        getTotalBalance();
     }
 
     @Override
@@ -108,18 +117,6 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean checkWalletsList()
-    {
-        if (walletList.isEmpty())
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
     public void signOut()
     {
         AuthUI.getInstance()
@@ -148,6 +145,8 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
             WalletClass resultWallet = (WalletClass) data.getSerializable("walletClass");
 
             walletList.add(resultWallet);
+
+            getTotalBalance();
         }
     }
 
@@ -157,6 +156,21 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
         Intent intent = new Intent(MainActivity.this, WalletHome.class);
         intent.putExtra("wallet", walletList.get(position));
         startActivity(intent);
+    }
+
+    public void getTotalBalance()
+    {
+        double total = 0;
+
+        for (int i = 0; i < walletList.size(); i++)
+        {
+            WalletClass object = walletList.get(i);
+
+            total = total + object.getBalance();
+        }
+
+        TextView totalBalance = findViewById(R.id.totalBalance);
+        totalBalance.setText("£" + total);
     }
 
     public void loadFile()
@@ -215,9 +229,17 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
     }
 
     @Override
-    protected void onDestroy()
+    public void onBackPressed()
     {
-        super.onDestroy();
+        super.onBackPressed();
+
+        finish();
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
 
         saveFile();
     }
