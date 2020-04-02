@@ -120,7 +120,8 @@ public class transactionDialog extends DialogFragment
 
     public boolean validate(View view)
     {
-        String amount = view.findViewById(R.id.amount).toString();
+        EditText amountT = view.findViewById(R.id.amount);
+        String amount = amountT.getText().toString();
 
         if (TextUtils.isEmpty(amount))
         {
@@ -131,7 +132,8 @@ public class transactionDialog extends DialogFragment
 
         if (transactionType == "Withdraw")
         {
-            if (Double.parseDouble(amount) > wallet.getBalance())
+            double amountD = Double.parseDouble(amount);
+            if (amountD > wallet.getBalance())
             {
                 Toast.makeText(getContext(), "Withdrawal amount is too large for selected wallet", Toast.LENGTH_SHORT).show();
 

@@ -23,8 +23,8 @@ public class recyclerViewAdapterWallet extends RecyclerView.Adapter<recyclerView
         {
             super(view);
 
-            transactionType = view.findViewById(R.id.walletName);
-            amount = view.findViewById(R.id.walletBalance);
+            transactionType = view.findViewById(R.id.transactionType);
+            amount = view.findViewById(R.id.amount);
         }
     }
 
@@ -38,7 +38,7 @@ public class recyclerViewAdapterWallet extends RecyclerView.Adapter<recyclerView
     public recyclerViewAdapterWallet.MyViewHolder onCreateViewHolder (@NonNull ViewGroup parent, int viewType)
     {
         //Create new view
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.wallet_recyclerview_layout, parent, false);
 
         return new MyViewHolder(view);
     }

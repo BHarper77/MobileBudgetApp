@@ -42,6 +42,7 @@ public class WalletClass implements Serializable
 
     public static class Transactions
     {
+        //TODO: Implement date and time for transactions
         private double amount;
         private @Nullable String reference, type;
         private boolean recurring;

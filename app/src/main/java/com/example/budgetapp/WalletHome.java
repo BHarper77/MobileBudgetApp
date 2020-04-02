@@ -7,8 +7,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -95,11 +99,22 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
         );
 
         //TODO: Error: Attempt to invoke interface method. "Problems with adding a transaction to the transaction list in the wallet class". Might need help in next weeks lab
-        wallet.addTransaction(transaction);
+        //wallet.addTransaction(transaction);
 
         transactionsList.add(transaction);
 
-        double newBalance = wallet.getBalance() - bundle.getDouble("amount");
+        double newBalance = 0;
+
+        switch (bundle.getString("transactionType"))
+        {
+            case "Deposit":
+                newBalance = wallet.getBalance() + bundle.getDouble("amount");
+                break;
+
+            case "Withdraw":
+                newBalance = wallet.getBalance() - bundle.getDouble("amount");
+        }
+
 
         wallet.setBalance(newBalance);
         TextView balance = findViewById(R.id.balance);
