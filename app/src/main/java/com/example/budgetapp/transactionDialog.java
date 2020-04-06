@@ -6,28 +6,26 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
+
+import java.util.Date;
 
 public class transactionDialog extends DialogFragment
 {
     private static final String TAG = "transactionDialog";
 
-    private WalletClass wallet;
+    private walletClass wallet;
     private String transactionType;
     private double amount;
 
-    public transactionDialog(WalletClass wallet,String transactionType)
+    public transactionDialog(walletClass wallet, String transactionType)
     {
         this.wallet = wallet;
         this.transactionType = transactionType;
@@ -45,7 +43,7 @@ public class transactionDialog extends DialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        //Use the Builder class for convenient dialog construction
+        //Use the Builder class for dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -101,10 +99,13 @@ public class transactionDialog extends DialogFragment
 
         CheckBox checkBox = view.findViewById(R.id.recurringCheck);
 
+        String dateTime = java.text.DateFormat.getDateInstance().format(new Date());
+
         Bundle bundle = new Bundle();
         bundle.putString("transactionType", transactionType);
         bundle.putDouble("amount", amount);
         bundle.putString("reference", reference);
+        bundle.putString("dateTime", dateTime);
 
         if (checkBox.isChecked())
         {

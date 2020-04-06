@@ -5,6 +5,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".loginActivity"
-    android:gravity="center_vertical">
-</LinearLayout>
+    tools:context=".LoginActivity"
+    android:gravity="center_vertical"/>

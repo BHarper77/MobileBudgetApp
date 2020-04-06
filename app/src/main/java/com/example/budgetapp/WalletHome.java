@@ -5,16 +5,8 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,9 +17,9 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
 {
     private static final String TAG = "WalletHome";
     
-    WalletClass wallet;
+    walletClass wallet;
 
-    List<WalletClass.Transactions> transactionsList = new ArrayList<>();
+    List<walletClass.transactions> transactionsList = new ArrayList<>();
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -40,7 +32,7 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_wallet_home);
 
         Bundle data = getIntent().getExtras();
-        wallet = (WalletClass) data.getSerializable("wallet");
+        wallet = (walletClass) data.getSerializable("wallet");
 
         recyclerView = findViewById(R.id.transactionRecyclerView);
 
@@ -91,11 +83,12 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onDialogPositiveClick(DialogFragment dialogFragment, Bundle bundle)
     {
-        WalletClass.Transactions transaction = new WalletClass.Transactions(
+        walletClass.transactions transaction = new walletClass.transactions(
                 bundle.getString("transactionType"),
                 bundle.getDouble("amount"),
                 bundle.getBoolean("recurring"),
-                bundle.getString("reference")
+                bundle.getString("reference"),
+                bundle.getString("dateTime")
         );
 
         //TODO: Error: Attempt to invoke interface method. "Problems with adding a transaction to the transaction list in the wallet class". Might need help in next weeks lab

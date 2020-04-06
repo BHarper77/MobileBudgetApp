@@ -12,7 +12,7 @@ import java.util.List;
 
 public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapter.MyViewHolder>
 {
-    private List<WalletClass> adapterDataset;
+    private List<walletClass> adapterDataset;
     private OnWalletListener mOnWalletListener;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
@@ -46,7 +46,7 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
         void onWalletClick (int position);
     }
 
-    public recyclerViewAdapter (List<WalletClass> myDataset, OnWalletListener onWalletListener)
+    public recyclerViewAdapter (List<walletClass> myDataset, OnWalletListener onWalletListener)
     {
         adapterDataset = myDataset;
         this.mOnWalletListener = onWalletListener;
@@ -65,7 +65,7 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
     {
-        //Casting payloads to WalletClass list
+        //Casting payloads to walletClass list
         holder.walletNameView.setText(adapterDataset.get(position).getWalletName());
 
         holder.walletBalanceView.setText("£" + adapterDataset.get(position).getBalance());

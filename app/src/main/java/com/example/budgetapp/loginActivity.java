@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Arrays;
 import java.util.List;
 
-public class loginActivity extends AppCompatActivity
+public class LoginActivity extends AppCompatActivity
 {
     private static final int RC_SIGN_IN = 123;
     private static final String TAG = "GoogleActivity";
@@ -46,7 +46,7 @@ public class loginActivity extends AppCompatActivity
 
         if (currentUser != null)
         {
-            Intent intent = new Intent(loginActivity.this, MainActivity.class);
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }
@@ -84,7 +84,7 @@ public class loginActivity extends AppCompatActivity
                 //Success
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                Intent intent = new Intent(loginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }

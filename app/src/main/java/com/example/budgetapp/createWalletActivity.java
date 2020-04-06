@@ -8,7 +8,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class createWalletActivity extends AppCompatActivity implements  View.OnClickListener
+public class CreateWalletActivity extends AppCompatActivity implements  View.OnClickListener
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,7 +30,7 @@ public class createWalletActivity extends AppCompatActivity implements  View.OnC
             int balance = Integer.parseInt(walletBalance.getText().toString());
 
             //Creating new Wallet with inputted values
-            WalletClass wallet = new WalletClass(walletName.getText().toString(), balance);
+            walletClass wallet = new walletClass(walletName.getText().toString(), balance);
 
             //Sending class data back to main activity
             Intent intent = new Intent();

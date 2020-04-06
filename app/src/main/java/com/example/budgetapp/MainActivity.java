@@ -26,7 +26,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -39,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
     private FirebaseAuth mAuth;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-    List<WalletClass> walletList = new ArrayList<>();
+    List<walletClass> walletList = new ArrayList<>();
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
         //Check user logged in
         if (currentUser == null)
         {
-            Intent intent = new Intent(MainActivity.this, loginActivity.class);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
 
             finish();
@@ -97,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
         switch (item.getItemId())
         {
             case R.id.createWallet:
-                Intent intentTwo = new Intent(MainActivity.this, createWalletActivity.class);
+                Intent intentTwo = new Intent(MainActivity.this, CreateWalletActivity.class);
                 startActivityForResult(intentTwo, 1);
                 break;
 
@@ -127,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
                     public void onComplete(@NonNull Task<Void> task)
                     {
                         Log.e("Log out", "user logged out");
-                        Intent intent = new Intent(MainActivity.this, loginActivity.class);
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -142,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
         {
             //Retriving bundle and extracting data
             Bundle data = intent.getExtras();
-            WalletClass resultWallet = (WalletClass) data.getSerializable("walletClass");
+            walletClass resultWallet = (walletClass) data.getSerializable("walletClass");
 
             walletList.add(resultWallet);
 
@@ -164,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
 
         for (int i = 0; i < walletList.size(); i++)
         {
-            WalletClass object = walletList.get(i);
+            walletClass object = walletList.get(i);
 
             total = total + object.getBalance();
         }
@@ -194,12 +193,10 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
             reader.close();
             fis.close();
 
-            Type walletListType = new TypeToken<ArrayList<WalletClass>>(){}.getType();
+            Type walletListType = new TypeToken<ArrayList<walletClass>>(){}.getType();
             walletList = new Gson().fromJson(data.toString(), walletListType);
 
             Log.d("Load File", "" + data);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -221,8 +218,6 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
 
             fos.write(data.getBytes());
             fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -231,6 +226,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
     @Override
     public void onBackPressed()
     {
+        //TODO: Fix app not closing when back button pressed on MainActivity, keeps going back to LoginActivity
         super.onBackPressed();
 
         finish();
