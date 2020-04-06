@@ -43,7 +43,8 @@ public class walletClass implements Serializable
     public static class transactions
     {
         private double amount;
-        private @Nullable String reference, type, dateTime;
+        private @Nullable String reference;
+        private String type, dateTime;
         private boolean recurring;
 
         //Constructor
@@ -72,6 +73,7 @@ public class walletClass implements Serializable
             return recurring;
         }
 
+        @Nullable
         public String getReference()
         {
             return reference;

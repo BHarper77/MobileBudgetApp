@@ -40,10 +40,10 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
         }
     }
 
-    //Listener for recyclerView, whatever wallet is selected
+    //Listener for recyclerView, when wallet is selected
     public interface OnWalletListener
     {
-        void onWalletClick (int position);
+        void onWalletClick(int position);
     }
 
     public recyclerViewAdapter (List<walletClass> myDataset, OnWalletListener onWalletListener)

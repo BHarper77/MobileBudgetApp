@@ -7,13 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WalletHome extends AppCompatActivity implements View.OnClickListener, transactionDialog.DialogListener
+public class WalletHome extends AppCompatActivity implements View.OnClickListener, transactionDialog.DialogListener, recyclerViewAdapterWallet.OnTransactionListener
 {
     private static final String TAG = "WalletHome";
     
@@ -51,7 +52,7 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
     {
         super.onStart();
 
-        mAdapter = new recyclerViewAdapterWallet(transactionsList);
+        mAdapter = new recyclerViewAdapterWallet(transactionsList, this);
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -68,6 +69,14 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
                 deposit();
                 break;
         }
+    }
+
+    @Override
+    public void onTransactionClick(int position)
+    {
+        //TODO: textView displaying weird shit by default
+        TextView reference = findViewById(R.id.reference);
+        reference.setText("test");
     }
 
     private void withdraw()
