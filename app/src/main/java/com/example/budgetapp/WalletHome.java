@@ -78,9 +78,7 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onTransactionClick(int position)
     {
-        //TODO: textView displaying weird shit by default
-        TextView reference = findViewById(R.id.reference);
-        reference.setText("test");
+        findViewById(R.id.reference).setVisibility(View.VISIBLE);
     }
 
     private void withdraw()

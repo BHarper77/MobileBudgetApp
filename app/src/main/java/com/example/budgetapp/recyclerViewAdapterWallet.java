@@ -13,7 +13,6 @@ import java.util.List;
 
 public class recyclerViewAdapterWallet extends RecyclerView.Adapter<recyclerViewAdapterWallet.MyViewHolder>
 {
-    //TODO: Implement listener to display notes on transactions, if transactions have any notes
     private List<walletClass.transactions> adapterDataset;
     private OnTransactionListener mOnWalletListener;
 

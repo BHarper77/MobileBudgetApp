@@ -76,13 +76,27 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
     {
         super.onStart();
 
+        updateUI();
+    }
+
+    void updateUI()
+    {
         mAdapter = new recyclerViewAdapter(walletList, this);
         recyclerView.setAdapter(mAdapter);
 
-        //TODO: recyclerView not being updated when wallet is deleted
         mAdapter.notifyDataSetChanged();
 
-        getTotalBalance();
+        double total = 0;
+
+        for (int i = 0; i < walletList.size(); i++)
+        {
+            walletClass object = walletList.get(i);
+
+            total = total + object.getBalance();
+        }
+
+        TextView totalBalance = findViewById(R.id.totalBalance);
+        totalBalance.setText("£" + total);
     }
 
     @Override
@@ -150,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
 
             walletList.add(resultWallet);
 
-            getTotalBalance();
+            updateUI();
         }
     }
 
@@ -176,28 +190,13 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
         walletList.remove(wallet);
         wallet = null;
 
-        getTotalBalance();
+        updateUI();
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialogFragment)
     {
         Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
-    }
-
-    public void getTotalBalance()
-    {
-        double total = 0;
-
-        for (int i = 0; i < walletList.size(); i++)
-        {
-            walletClass object = walletList.get(i);
-
-            total = total + object.getBalance();
-        }
-
-        TextView totalBalance = findViewById(R.id.totalBalance);
-        totalBalance.setText("£" + total);
     }
 
     public void loadFile()

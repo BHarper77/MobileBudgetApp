@@ -95,7 +95,7 @@ public class transactionDialog extends DialogFragment
         double amount = Double.parseDouble(Amount.getText().toString());
 
         EditText Reference = view.findViewById(R.id.reference);
-        String reference = Reference.toString();
+        String reference = Reference.getText().toString();
 
         CheckBox checkBox = view.findViewById(R.id.recurringCheck);
 

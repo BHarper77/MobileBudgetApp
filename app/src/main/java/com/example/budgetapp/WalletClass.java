@@ -10,7 +10,7 @@ public class walletClass implements Serializable
 {
     private String walletName;
     private double balance;
-    private List<walletClass.transactions> transactions;
+    private static List<walletClass.transactions> transactions;
 
     //Constructor
     public walletClass(String walletName, double balance)
