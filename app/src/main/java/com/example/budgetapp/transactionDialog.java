@@ -51,7 +51,7 @@ public class transactionDialog extends DialogFragment
 
         builder.setView(view)
         .setTitle(transactionType)
-        .setPositiveButton("Submit", new DialogInterface.OnClickListener()
+        .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface dialog, int id)
             {
@@ -64,7 +64,7 @@ public class transactionDialog extends DialogFragment
             }
         })
 
-        .setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface dialog, int id)
             {

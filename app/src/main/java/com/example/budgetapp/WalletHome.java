@@ -6,6 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -99,6 +103,8 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
                 bundle.getString("reference"),
                 bundle.getString("dateTime")
         );
+
+        Log.d(TAG, "onDialogPositiveClick: " + transaction.getAmount());
 
         //TODO: Error: Attempt to invoke interface method. "Problems with adding a transaction to the transaction list in the wallet class". Might need help in next weeks lab
         wallet.addTransaction(transaction);

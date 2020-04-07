@@ -15,7 +15,7 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
     private List<walletClass> adapterDataset;
     private OnWalletListener mOnWalletListener;
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener
     {
         public TextView walletNameView;
         public TextView walletBalanceView;
@@ -31,6 +31,7 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
             //Setting listener to each ViewHolder that is created
             this.onWalletListener = onWalletListener;
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
@@ -38,12 +39,20 @@ public class recyclerViewAdapter extends RecyclerView.Adapter<recyclerViewAdapte
         {
             onWalletListener.onWalletClick(getAdapterPosition());
         }
+
+        @Override
+        public boolean onLongClick(View view)
+        {
+            onWalletListener.onWalletLongClick(getAdapterPosition());
+            return true;
+        }
     }
 
     //Listener for recyclerView, when wallet is selected
     public interface OnWalletListener
     {
         void onWalletClick(int position);
+        void onWalletLongClick(int position);
     }
 
     public recyclerViewAdapter (List<walletClass> myDataset, OnWalletListener onWalletListener)

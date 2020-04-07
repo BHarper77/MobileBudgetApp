@@ -8,9 +8,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,7 +35,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements recyclerViewAdapter.OnWalletListener
+public class MainActivity extends AppCompatActivity implements recyclerViewAdapter.OnWalletListener, deleteWalletDialog.DialogListener
 {
     private FirebaseAuth mAuth;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -76,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
 
         mAdapter = new recyclerViewAdapter(walletList, this);
         recyclerView.setAdapter(mAdapter);
+
+        //TODO: recyclerView not being updated when wallet is deleted
+        mAdapter.notifyDataSetChanged();
 
         getTotalBalance();
     }
@@ -155,6 +160,29 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
         Intent intent = new Intent(MainActivity.this, WalletHome.class);
         intent.putExtra("wallet", walletList.get(position));
         startActivity(intent);
+    }
+
+    @Override
+    public void onWalletLongClick(int position)
+    {
+        new deleteWalletDialog(walletList.get(position)).show(getSupportFragmentManager(), null);
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialogFragment, walletClass wallet)
+    {
+        Toast.makeText(this, wallet.getWalletName() + " deleted", Toast.LENGTH_SHORT).show();
+
+        walletList.remove(wallet);
+        wallet = null;
+
+        getTotalBalance();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialogFragment)
+    {
+        Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
     }
 
     public void getTotalBalance()
