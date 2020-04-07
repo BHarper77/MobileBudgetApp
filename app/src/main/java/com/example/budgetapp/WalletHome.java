@@ -101,7 +101,7 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
         );
 
         //TODO: Error: Attempt to invoke interface method. "Problems with adding a transaction to the transaction list in the wallet class". Might need help in next weeks lab
-        //wallet.addTransaction(transaction);
+        wallet.addTransaction(transaction);
 
         transactionsList.add(transaction);
 
