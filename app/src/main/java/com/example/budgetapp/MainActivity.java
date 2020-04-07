@@ -235,6 +235,9 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        /*threads thread = new threads(2000, walletList, "Load", currentUser);
+        new Thread(thread).start();*/
     }
 
     public void saveFile()
@@ -256,6 +259,9 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        /*threads thread = new threads(2000, walletList, "Save", currentUser);
+        new Thread(thread).start();*/
     }
 
     @Override

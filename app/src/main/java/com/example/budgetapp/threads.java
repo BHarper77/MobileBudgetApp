@@ -37,7 +37,7 @@ public class threads extends AppCompatActivity implements Runnable
     @Override
     public void run()
     {
-        if (type == "Saving")
+        if (type == "Save")
         {
             saveFile();
         }
