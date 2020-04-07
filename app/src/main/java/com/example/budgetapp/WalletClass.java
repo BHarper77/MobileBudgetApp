@@ -10,14 +10,13 @@ public class walletClass implements Serializable
 {
     private String walletName;
     private double balance;
-    private static List<walletClass.transactions> transactions;
+    private static List<walletClass.transactions> transactions = new ArrayList<>();
 
     //Constructor
     public walletClass(String walletName, double balance)
     {
         this.walletName = walletName;
         this.balance = balance;
-        this.transactions = new ArrayList<>();
     }
 
     //Public methods

@@ -79,6 +79,14 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
         updateUI();
     }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        updateUI();
+    }
+
     void updateUI()
     {
         mAdapter = new recyclerViewAdapter(walletList, this);
