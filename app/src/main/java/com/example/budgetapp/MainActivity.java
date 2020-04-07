@@ -261,10 +261,10 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
     @Override
     public void onBackPressed()
     {
-        //TODO: Fix app not closing when back button pressed on MainActivity, keeps going back to LoginActivity
-        super.onBackPressed();
-
-        finish();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override
