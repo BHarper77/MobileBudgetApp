@@ -40,6 +40,11 @@ public class walletClass implements Serializable
         this.transactions.add(transaction);
     }
 
+    public List<walletClass.transactions> getTransactions()
+    {
+        return transactions;
+    }
+
     public static class transactions
     {
         private double amount;

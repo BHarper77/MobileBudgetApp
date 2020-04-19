@@ -24,8 +24,6 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
     
     walletClass wallet;
 
-    List<walletClass.transactions> transactionsList = new ArrayList<>();
-
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -56,7 +54,7 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
     {
         super.onStart();
 
-        mAdapter = new recyclerViewAdapterWallet(transactionsList, this);
+        mAdapter = new recyclerViewAdapterWallet(wallet.getTransactions(), this);
         recyclerView.setAdapter(mAdapter);
     }
 
@@ -104,10 +102,7 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
 
         Log.d(TAG, "onDialogPositiveClick: " + transaction.getAmount());
 
-        //TODO: Error: Attempt to invoke interface method. "Problems with adding a transaction to the transaction list in the wallet class". Might need help in next weeks lab
-        //wallet.addTransaction(transaction);
-
-        transactionsList.add(transaction);
+        wallet.addTransaction(transaction);
 
         double newBalance = 0;
 

@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity
                 if (response != null)
                 {
                     Toast.makeText(getApplicationContext(), "Sign in failed", Toast.LENGTH_SHORT).show();
-                    Log.w("signInError", "Code: " + response.getError().getErrorCode());
+                    Log.d("signInError", "Code: " + response.getError().getErrorCode());
                 }
             }
         }
