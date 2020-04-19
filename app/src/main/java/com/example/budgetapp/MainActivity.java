@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +36,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements recyclerViewAdapter.OnWalletListener, deleteWalletDialog.DialogListener
+public class MainActivity extends AppCompatActivity implements recyclerViewAdapter.OnWalletListener, deleteWalletDialog.DialogListener, View.OnClickListener
 {
     private FirebaseAuth mAuth;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -123,8 +124,8 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
         switch (item.getItemId())
         {
             case R.id.createWallet:
-                Intent intentTwo = new Intent(MainActivity.this, CreateWalletActivity.class);
-                startActivityForResult(intentTwo, 1);
+                Intent intent = new Intent(MainActivity.this, CreateWalletActivity.class);
+                startActivityForResult(intent, 1);
                 break;
 
             case R.id.settings:
@@ -141,6 +142,17 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.saveTest:
+                saveFile();
+                break;
+        }
     }
 
     public void signOut()
@@ -174,14 +186,31 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
 
             updateUI();
         }
+
+        //TODO: Activity returning resultCode 0, pressing back button cancels activity, think of better way
+        if (requestCode == 2 && resultCode == RESULT_OK)
+        {
+            //Retrieving new wallet and transactions from WalletHome
+            Bundle data = intent.getExtras();
+            walletClass updatedWallet = (walletClass) data.getSerializable("updatedWallet");
+            int index = data.getInt("index");
+
+            walletList.set(index, updatedWallet);
+
+            updateUI();
+        }
     }
 
     @Override
     public void onWalletClick(int position)
     {
+        walletClass wallet = walletList.get(position);
+        int index = walletList.indexOf(wallet);
+
         Intent intent = new Intent(MainActivity.this, WalletHome.class);
         intent.putExtra("wallet", walletList.get(position));
-        startActivity(intent);
+        intent.putExtra("index",index);
+        startActivityForResult(intent, 2);
     }
 
     @Override

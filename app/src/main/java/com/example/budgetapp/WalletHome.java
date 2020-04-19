@@ -5,6 +5,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -23,6 +24,7 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
     private static final String TAG = "WalletHome";
     
     walletClass wallet;
+    int index;
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -36,6 +38,7 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
 
         Bundle data = getIntent().getExtras();
         wallet = (walletClass) data.getSerializable("wallet");
+        index = data.getInt("index");
 
         recyclerView = findViewById(R.id.transactionRecyclerView);
 
@@ -110,10 +113,13 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
         {
             case "Deposit":
                 newBalance = wallet.getBalance() + bundle.getDouble("amount");
+                wallet.setBalance(newBalance);
                 break;
 
             case "Withdraw":
                 newBalance = wallet.getBalance() - bundle.getDouble("amount");
+                wallet.setBalance(newBalance);
+                break;
         }
 
 
@@ -126,5 +132,19 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
     public void onDialogNegativeClick(DialogFragment dialogFragment)
     {
         Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+
+        //Sending class data back to main activity
+        Intent intent = new Intent();
+        intent.putExtra("updatedWallet", wallet);
+        intent.putExtra("index", index);
+        this.setResult(-1, intent);
+
+        finish();
     }
 }
