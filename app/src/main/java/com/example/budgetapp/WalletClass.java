@@ -44,7 +44,6 @@ public class walletClass implements Serializable
 
     public List<walletClass.transactions> getTransactions()
     {
-        transactions
         return transactions;
     }
 
