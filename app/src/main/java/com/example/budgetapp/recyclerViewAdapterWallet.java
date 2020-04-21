@@ -78,6 +78,7 @@ public class recyclerViewAdapterWallet extends RecyclerView.Adapter<recyclerView
     }
 
     @Override
+    @Nullable
     public int getItemCount()
     {
         return adapterDataset.size();

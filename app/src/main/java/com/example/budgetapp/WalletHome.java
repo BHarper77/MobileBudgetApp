@@ -57,6 +57,7 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
     {
         super.onStart();
 
+        //Passing wallet transaction list to recyclerView
         mAdapter = new recyclerViewAdapterWallet(wallet.getTransactions(), this);
         recyclerView.setAdapter(mAdapter);
     }
@@ -137,13 +138,11 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onBackPressed()
     {
-        super.onBackPressed();
-
         //Sending class data back to main activity
         Intent intent = new Intent();
         intent.putExtra("updatedWallet", wallet);
         intent.putExtra("index", index);
-        this.setResult(-1, intent);
+        this.setResult(RESULT_OK, intent);
 
         finish();
     }

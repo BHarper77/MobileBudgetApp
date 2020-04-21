@@ -38,6 +38,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements recyclerViewAdapter.OnWalletListener, deleteWalletDialog.DialogListener, View.OnClickListener
 {
+    private static final String TAG = "MainActivity";
     private FirebaseAuth mAuth;
     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 

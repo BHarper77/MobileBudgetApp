@@ -4,19 +4,21 @@ import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class walletClass implements Serializable
 {
     private String walletName;
     private double balance;
-    private static List<walletClass.transactions> transactions = new ArrayList<>();
+    private List<walletClass.transactions> transactions = new ArrayList<>();
 
     //Constructor
-    public walletClass(String walletName, double balance)
+    public walletClass(String walletName, double balance, List<walletClass.transactions> transactions)
     {
         this.walletName = walletName;
         this.balance = balance;
+        this.transactions = transactions;
     }
 
     //Public methods
@@ -42,10 +44,11 @@ public class walletClass implements Serializable
 
     public List<walletClass.transactions> getTransactions()
     {
+        transactions
         return transactions;
     }
 
-    public static class transactions
+    public static class transactions implements Serializable
     {
         private double amount;
         private @Nullable String reference;

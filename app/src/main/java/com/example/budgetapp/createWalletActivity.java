@@ -8,6 +8,9 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CreateWalletActivity extends AppCompatActivity implements  View.OnClickListener
 {
     @Override
@@ -25,12 +28,14 @@ public class CreateWalletActivity extends AppCompatActivity implements  View.OnC
         EditText walletName = findViewById(R.id.walletName);
         EditText walletBalance = findViewById(R.id.walletBalance);
 
+        List<walletClass.transactions> transactions = new ArrayList<>();
+
         if (validate())
         {
             int balance = Integer.parseInt(walletBalance.getText().toString());
 
             //Creating new Wallet with inputted values
-            walletClass wallet = new walletClass(walletName.getText().toString(), balance);
+            walletClass wallet = new walletClass(walletName.getText().toString(), balance, transactions);
 
             //Sending class data back to main activity
             Intent intent = new Intent();
