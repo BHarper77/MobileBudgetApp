@@ -40,6 +40,9 @@ public class walletClass implements Serializable
     public void addTransaction(walletClass.transactions transaction)
     {
         this.transactions.add(transaction);
+
+        Collections.sort(transactions);
+        Collections.reverse(transactions);
     }
 
     public List<walletClass.transactions> getTransactions()
@@ -47,21 +50,22 @@ public class walletClass implements Serializable
         return transactions;
     }
 
-    public static class transactions implements Serializable
+    public static class transactions implements Serializable, Comparable<walletClass.transactions>
     {
         private double amount;
         private @Nullable String reference;
-        private String type, dateTime;
+        private String type, date, time;
         private boolean recurring;
 
         //Constructor
-        public transactions(String type, double amount, boolean recurring, @Nullable String reference, String dateTime)
+        public transactions(String type, double amount, boolean recurring, @Nullable String reference, String date, String time)
         {
             this.type = type;
             this.amount = amount;
             this.recurring = recurring;
             this.reference = reference;
-            this.dateTime = dateTime;
+            this.date = date;
+            this.time = time;
         }
 
         //Public methods
@@ -86,9 +90,20 @@ public class walletClass implements Serializable
             return reference;
         }
 
-        public String getDateTime()
+        public String getDate()
         {
-            return dateTime;
+            return date;
+        }
+
+        public String getTime()
+        {
+            return time;
+        }
+
+        @Override
+        public int compareTo(walletClass.transactions transaction)
+        {
+            return getTime().compareTo(transaction.getTime());
         }
     }
 }

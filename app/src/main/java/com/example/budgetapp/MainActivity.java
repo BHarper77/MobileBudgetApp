@@ -36,7 +36,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements recyclerViewAdapter.OnWalletListener, deleteWalletDialog.DialogListener, View.OnClickListener
+public class MainActivity extends AppCompatActivity implements recyclerViewAdapter.OnWalletListener, deleteWalletDialog.DialogListener
 {
     private static final String TAG = "MainActivity";
     private FirebaseAuth mAuth;
@@ -143,17 +143,6 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onClick(View view)
-    {
-        switch (view.getId())
-        {
-            case R.id.saveTest:
-                saveFile();
-                break;
-        }
     }
 
     public void signOut()

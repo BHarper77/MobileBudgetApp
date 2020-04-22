@@ -73,7 +73,7 @@ public class recyclerViewAdapterWallet extends RecyclerView.Adapter<recyclerView
         //Casting payloads to walletClass list
         holder.transactionType.setText(adapterDataset.get(position).getType());
         holder.amount.setText("£" + adapterDataset.get(position).getAmount());
-        holder.dateTime.setText(adapterDataset.get(position).getDateTime());
+        holder.dateTime.setText(adapterDataset.get(position).getDate());
         holder.reference.setText(adapterDataset.get(position).getReference());
     }
 

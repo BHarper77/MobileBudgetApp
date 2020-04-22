@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class WalletHome extends AppCompatActivity implements View.OnClickListener, transactionDialog.DialogListener, recyclerViewAdapterWallet.OnTransactionListener
@@ -57,6 +58,11 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
     {
         super.onStart();
 
+        updateUI();
+    }
+
+    public void updateUI()
+    {
         //Passing wallet transaction list to recyclerView
         mAdapter = new recyclerViewAdapterWallet(wallet.getTransactions(), this);
         recyclerView.setAdapter(mAdapter);
@@ -101,7 +107,8 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
                 bundle.getDouble("amount"),
                 bundle.getBoolean("recurring"),
                 bundle.getString("reference"),
-                bundle.getString("dateTime")
+                bundle.getString("date"),
+                bundle.getString("time")
         );
 
         Log.d(TAG, "onDialogPositiveClick: " + transaction.getAmount());
@@ -127,6 +134,8 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
         wallet.setBalance(newBalance);
         TextView balance = findViewById(R.id.balance);
         balance.setText("£" + newBalance);
+
+        updateUI();
     }
 
     @Override

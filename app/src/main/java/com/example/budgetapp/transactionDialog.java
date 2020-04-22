@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,8 +14,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 
+import java.sql.Time;
 import java.util.Date;
 
 public class transactionDialog extends DialogFragment
@@ -99,13 +102,15 @@ public class transactionDialog extends DialogFragment
 
         CheckBox checkBox = view.findViewById(R.id.recurringCheck);
 
-        String dateTime = java.text.DateFormat.getDateInstance().format(new Date());
+        String date = java.text.DateFormat.getDateInstance().format(new Date());
+        String time = java.text.DateFormat.getTimeInstance().format(new Date());
 
         Bundle bundle = new Bundle();
         bundle.putString("transactionType", transactionType);
         bundle.putDouble("amount", amount);
         bundle.putString("reference", reference);
-        bundle.putString("dateTime", dateTime);
+        bundle.putString("date", date);
+        bundle.putString("time", time);
 
         if (checkBox.isChecked())
         {
