@@ -1,4 +1,4 @@
-package com.example.budgetapp;
+package com.example.budgetapp.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.budgetapp.DataClasses.walletClass;
+import com.example.budgetapp.R;
 
 import java.util.ArrayList;
 import java.util.List;

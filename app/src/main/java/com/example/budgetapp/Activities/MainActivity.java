@@ -1,4 +1,4 @@
-package com.example.budgetapp;
+package com.example.budgetapp.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.budgetapp.DataClasses.walletClass;
+import com.example.budgetapp.R;
+import com.example.budgetapp.AlternativeViews.deleteWalletDialog;
+import com.example.budgetapp.AlternativeViews.recyclerViewAdapter;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -205,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
     @Override
     public void onWalletLongClick(int position)
     {
+        //TODO: Look at changing to popup instead of dialog
         new deleteWalletDialog(walletList.get(position)).show(getSupportFragmentManager(), null);
     }
 

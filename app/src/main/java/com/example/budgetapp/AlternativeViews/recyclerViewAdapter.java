@@ -1,4 +1,4 @@
-package com.example.budgetapp;
+package com.example.budgetapp.AlternativeViews;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +7,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.budgetapp.DataClasses.walletClass;
+import com.example.budgetapp.R;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.budgetapp;
+package com.example.budgetapp.AlternativeViews;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -8,6 +8,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
+
+import com.example.budgetapp.DataClasses.walletClass;
+import com.example.budgetapp.R;
 
 public class deleteWalletDialog extends DialogFragment
 {

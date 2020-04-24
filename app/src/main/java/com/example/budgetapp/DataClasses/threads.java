@@ -1,10 +1,11 @@
-package com.example.budgetapp;
+package com.example.budgetapp.DataClasses;
 
 import android.content.Context;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.budgetapp.DataClasses.walletClass;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

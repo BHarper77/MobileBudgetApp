@@ -1,10 +1,9 @@
-package com.example.budgetapp;
+package com.example.budgetapp.AlternativeViews;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,10 +13,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 
-import java.sql.Time;
+import com.example.budgetapp.DataClasses.walletClass;
+import com.example.budgetapp.R;
+
 import java.util.Date;
 
 public class transactionDialog extends DialogFragment

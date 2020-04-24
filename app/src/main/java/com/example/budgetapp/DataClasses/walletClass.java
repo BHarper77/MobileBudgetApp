@@ -1,4 +1,4 @@
-package com.example.budgetapp;
+package com.example.budgetapp.DataClasses;
 
 import androidx.annotation.Nullable;
 

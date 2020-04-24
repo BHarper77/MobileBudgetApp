@@ -1,4 +1,4 @@
-package com.example.budgetapp;
+package com.example.budgetapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -8,17 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.example.budgetapp.DataClasses.walletClass;
+import com.example.budgetapp.R;
+import com.example.budgetapp.AlternativeViews.recyclerViewAdapterWallet;
+import com.example.budgetapp.AlternativeViews.transactionDialog;
 
 public class WalletHome extends AppCompatActivity implements View.OnClickListener, transactionDialog.DialogListener, recyclerViewAdapterWallet.OnTransactionListener
 {
@@ -74,11 +71,11 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
         switch (view.getId())
         {
             case R.id.withdraw:
-                withdraw();
+                new transactionDialog(wallet, "Withdraw").show(getSupportFragmentManager(), "Withdraw");
                 break;
 
             case R.id.deposit:
-                deposit();
+                new transactionDialog(wallet, "Deposit").show(getSupportFragmentManager(), "Deposit");
                 break;
         }
     }
@@ -87,16 +84,6 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
     public void onTransactionClick(int position)
     {
         findViewById(R.id.reference).setVisibility(View.VISIBLE);
-    }
-
-    private void withdraw()
-    {
-        new transactionDialog(wallet, "Withdraw").show(getSupportFragmentManager(), "Withdraw");
-    }
-
-    private void deposit()
-    {
-        new transactionDialog(wallet, "Deposit").show(getSupportFragmentManager(), "Deposit");
     }
 
     @Override
