@@ -177,7 +177,6 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
             updateUI();
         }
 
-        //TODO: Activity returning resultCode 0, pressing back button cancels activity, think of better way
         if (requestCode == 2 && resultCode == RESULT_OK)
         {
             //Retrieving new wallet and transactions from WalletHome
