@@ -3,6 +3,7 @@ package com.example.budgetapp.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
 
         double total = 0;
 
+        //Calculate total balance
         for (int i = 0; i < walletList.size(); i++)
         {
             walletClass object = walletList.get(i);
@@ -231,59 +233,78 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
 
     public void loadFile()
     {
-        String filename = currentUser.getUid();
-
-        try {
-            FileInputStream fis = openFileInput(filename);
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-
-            StringBuilder data = new StringBuilder();
-            String line = reader.readLine();
-
-            while (line != null)
+        //FIXME: Threading not working properly when loading file:
+        // - File is not loaded when app is first launched
+        // - File is not loaded when app is killed in multitasking and reopened
+        // - File is loaded when app is killed using back button and reopened
+        Runnable runnable = new Runnable()
+        {
+            @Override
+            public void run()
             {
-                data.append(line).append("\n");
-                break;
+                String filename = currentUser.getUid();
+
+                try {
+                    FileInputStream fis = openFileInput(filename);
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+
+                    StringBuilder data = new StringBuilder();
+                    String line = reader.readLine();
+
+                    while (line != null)
+                    {
+                        data.append(line).append("\n");
+                        break;
+                    }
+
+                    reader.close();
+                    fis.close();
+
+                    //Create new type for GSON deserialization
+                    Type walletListType = new TypeToken<ArrayList<walletClass>>(){}.getType();
+                    walletList = new Gson().fromJson(data.toString(), walletListType);
+
+                    Log.d("Load File", "" + data);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+        };
 
-            reader.close();
-            fis.close();
-
-            Type walletListType = new TypeToken<ArrayList<walletClass>>(){}.getType();
-            walletList = new Gson().fromJson(data.toString(), walletListType);
-
-            Log.d("Load File", "" + data);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        /*threads thread = new threads(2000, walletList, "Load", currentUser);
-        new Thread(thread).start();*/
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 
     public void saveFile()
     {
-        String filename = currentUser.getUid();
+        Runnable runnable = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                String filename = currentUser.getUid();
 
-        Gson gson = new Gson();
-        String data = gson.toJson(walletList);
+                Gson gson = new Gson();
+                String data = gson.toJson(walletList);
 
-        Log.d("Save File", data);
+                Log.d("Save File", data);
 
-        FileOutputStream fos = null;
+                FileOutputStream fos = null;
 
-        try {
-            fos = openFileOutput(filename, Context.MODE_PRIVATE);
+                try {
+                    fos = openFileOutput(filename, Context.MODE_PRIVATE);
 
-            fos.write(data.getBytes());
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                    fos.write(data.getBytes());
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
 
-        /*threads thread = new threads(2000, walletList, "Save", currentUser);
-        new Thread(thread).start();*/
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 
     @Override
