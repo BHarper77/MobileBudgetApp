@@ -35,7 +35,7 @@ public class CreateWalletActivity extends AppCompatActivity implements  View.OnC
 
         if (validate())
         {
-            int balance = Integer.parseInt(walletBalance.getText().toString());
+            double balance = Double.parseDouble(walletBalance.getText().toString());
 
             //Creating new Wallet with inputted values
             walletClass wallet = new walletClass(walletName.getText().toString(), balance, transactions);

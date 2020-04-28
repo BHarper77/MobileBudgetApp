@@ -2,7 +2,6 @@ package com.example.budgetapp.Activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -14,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,8 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.DataClasses.walletClass;
 import com.example.budgetapp.R;
-import com.example.budgetapp.AlternativeViews.deleteWalletDialog;
-import com.example.budgetapp.AlternativeViews.recyclerViewAdapter;
+import com.example.budgetapp.AlternativeActivities.deleteWalletDialog;
+import com.example.budgetapp.AlternativeActivities.recyclerViewAdapter;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -73,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
 
             finish();
         }
+
+        TextView helloUser = findViewById(R.id.helloUser);
+        helloUser.setText("Hello " + currentUser.getDisplayName());
 
         loadFile();
 

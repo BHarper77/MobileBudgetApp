@@ -1,4 +1,4 @@
-package com.example.budgetapp.AlternativeViews;
+package com.example.budgetapp.AlternativeActivities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -112,6 +112,7 @@ public class transactionDialog extends DialogFragment
         bundle.putString("date", date);
         bundle.putString("time", time);
 
+        //TODO: Implement recurring functionality
         if (checkBox.isChecked())
         {
             bundle.putBoolean("recurring", true);

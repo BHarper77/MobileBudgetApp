@@ -14,8 +14,8 @@ import android.widget.Toast;
 
 import com.example.budgetapp.DataClasses.walletClass;
 import com.example.budgetapp.R;
-import com.example.budgetapp.AlternativeViews.recyclerViewAdapterWallet;
-import com.example.budgetapp.AlternativeViews.transactionDialog;
+import com.example.budgetapp.AlternativeActivities.recyclerViewAdapterWallet;
+import com.example.budgetapp.AlternativeActivities.transactionDialog;
 
 public class WalletHome extends AppCompatActivity implements View.OnClickListener, transactionDialog.DialogListener, recyclerViewAdapterWallet.OnTransactionListener
 {

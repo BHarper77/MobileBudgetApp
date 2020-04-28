@@ -1,4 +1,4 @@
-package com.example.budgetapp.AlternativeViews;
+package com.example.budgetapp.AlternativeActivities;
 
 import android.view.LayoutInflater;
 import android.view.View;

@@ -1,4 +1,4 @@
-package com.example.budgetapp.AlternativeViews;
+package com.example.budgetapp.AlternativeActivities;
 
 import android.app.Dialog;
 import android.content.Context;
