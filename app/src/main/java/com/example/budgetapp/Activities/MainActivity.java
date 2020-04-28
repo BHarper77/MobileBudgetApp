@@ -2,6 +2,7 @@ package com.example.budgetapp.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -233,10 +235,8 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
 
     public void loadFile()
     {
-        //FIXME: Threading not working properly when loading file:
-        // - File is not loaded when app is first launched
-        // - File is not loaded when app is killed in multitasking and reopened
-        // - File is loaded when app is killed using back button and reopened
+        final Handler handler = new Handler();
+
         Runnable runnable = new Runnable()
         {
             @Override
@@ -269,6 +269,17 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                //Background thread to update UI after load file thread is finished
+                //Handler sends new Runnable thread to parent thread queue
+                handler.post(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        updateUI();
+                    }
+                });
             }
         };
 
