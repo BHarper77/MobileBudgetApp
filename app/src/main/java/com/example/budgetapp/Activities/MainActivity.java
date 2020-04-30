@@ -8,12 +8,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,7 +43,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements recyclerViewAdapter.OnWalletListener, deleteWalletDialog.DialogListener
+public class MainActivity extends AppCompatActivity implements recyclerViewAdapter.OnWalletListener, deleteWalletDialog.DialogListener, PopupMenu.OnMenuItemClickListener
 {
     private static final String TAG = "MainActivity";
     private FirebaseAuth mAuth;
@@ -74,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
             finish();
         }
 
-        TextView helloUser = findViewById(R.id.helloUser);
-        helloUser.setText("Hello " + currentUser.getDisplayName());
+        TextView helloUser = findViewById(R.id.user);
+        helloUser.setText(currentUser.getDisplayName());
 
         loadFile();
 
@@ -117,42 +119,6 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
 
         TextView totalBalance = findViewById(R.id.totalBalance);
         totalBalance.setText("£" + total);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inflater = getMenuInflater();
-
-        inflater.inflate(R.menu.options_menu, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.createWallet:
-                Intent intent = new Intent(MainActivity.this, CreateWalletActivity.class);
-                startActivityForResult(intent, 1);
-                break;
-
-            case R.id.settings:
-                //TODO: Create settings activity, storing settings used shared prefs
-                //settings activity
-                break;
-
-            case R.id.logOut:
-                signOut();
-                break;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void signOut()
@@ -198,6 +164,40 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
 
             updateUI();
         }
+    }
+
+    public void showPopup(View view)
+    {
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        popupMenu.setOnMenuItemClickListener(this);
+        popupMenu.inflate(R.menu.options_menu);
+        popupMenu.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem)
+    {
+        switch (menuItem.getItemId())
+        {
+            case R.id.createWallet:
+                Intent intent = new Intent(MainActivity.this, CreateWalletActivity.class);
+                startActivityForResult(intent, 1);
+                return true;
+
+            case R.id.settings:
+                //TODO: Create settings activity, storing settings used shared prefs
+                //settings activity
+                break;
+
+            case R.id.logOut:
+                signOut();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(menuItem);
+        }
+
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override
