@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
                         .setIsSmartLockEnabled(false)
+                        .setTheme(R.style.AppTheme)
                         .build(), RC_SIGN_IN);
     }
 
