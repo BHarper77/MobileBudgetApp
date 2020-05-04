@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -135,10 +136,15 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
                 });
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent)
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent)
     {
         super.onActivityResult(requestCode, resultCode, intent);
 
+        if (intent == null)
+        {
+            Log.d(TAG, "onActivityResult: intent is null");
+        }
+        
         if (requestCode == 1 && resultCode == RESULT_OK)
         {
             //Retriving bundle and extracting data
@@ -157,10 +163,13 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
             walletClass updatedWallet = (walletClass) data.getSerializable("updatedWallet");
             int index = data.getInt("index");
 
-            //FIXME: App crashes on this line when returning from WalletHomeActivity
-            // - Works in portrait
-            // - Doesn't work in landscape
-            walletList.set(index, updatedWallet);
+            try {
+                walletList.set(index, updatedWallet);
+            }
+            catch (Exception e)
+            {
+                Log.d(TAG, "onActivityResult: " + e);
+            }
 
             updateUI();
         }
