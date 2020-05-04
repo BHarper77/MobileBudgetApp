@@ -17,9 +17,9 @@ import com.example.budgetapp.R;
 import com.example.budgetapp.AlternativeActivities.recyclerViewAdapterWallet;
 import com.example.budgetapp.AlternativeActivities.transactionDialog;
 
-public class WalletHome extends AppCompatActivity implements View.OnClickListener, transactionDialog.DialogListener, recyclerViewAdapterWallet.OnTransactionListener
+public class WalletHomeActivity extends AppCompatActivity implements View.OnClickListener, transactionDialog.DialogListener, recyclerViewAdapterWallet.OnTransactionListener
 {
-    private static final String TAG = "WalletHome";
+    private static final String TAG = "WalletHomeActivity";
     
     walletClass wallet;
     int index;
@@ -43,7 +43,7 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        TextView balance = findViewById(R.id.balance);
+        TextView balance = findViewById(R.id.totalBalance);
         balance.setText("£" + wallet.getBalance());
 
         TextView name = findViewById(R.id.name);
@@ -119,7 +119,7 @@ public class WalletHome extends AppCompatActivity implements View.OnClickListene
 
 
         wallet.setBalance(newBalance);
-        TextView balance = findViewById(R.id.balance);
+        TextView balance = findViewById(R.id.totalBalance);
         balance.setText("£" + newBalance);
 
         updateUI();

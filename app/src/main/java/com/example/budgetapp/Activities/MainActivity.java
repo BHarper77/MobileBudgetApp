@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -155,11 +152,14 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
 
         if (requestCode == 2 && resultCode == RESULT_OK)
         {
-            //Retrieving new wallet and transactions from WalletHome
+            //Retrieving new wallet and transactions from WalletHomeActivity
             Bundle data = intent.getExtras();
             walletClass updatedWallet = (walletClass) data.getSerializable("updatedWallet");
             int index = data.getInt("index");
 
+            //FIXME: App crashes on this line when returning from WalletHomeActivity
+            // - Works in portrait
+            // - Doesn't work in landscape
             walletList.set(index, updatedWallet);
 
             updateUI();
@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
         walletClass wallet = walletList.get(position);
         int index = walletList.indexOf(wallet);
 
-        Intent intent = new Intent(MainActivity.this, WalletHome.class);
+        Intent intent = new Intent(MainActivity.this, WalletHomeActivity.class);
         intent.putExtra("wallet", walletList.get(position));
         intent.putExtra("index",index);
         startActivityForResult(intent, 2);
