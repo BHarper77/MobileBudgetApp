@@ -193,11 +193,6 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
                 startActivityForResult(intent, 1);
                 return true;
 
-            case R.id.settings:
-                //TODO: Create settings activity, storing settings used shared prefs
-                //settings activity
-                break;
-
             case R.id.logOut:
                 signOut();
                 return true;
@@ -205,8 +200,6 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
             default:
                 return super.onOptionsItemSelected(menuItem);
         }
-
-        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override

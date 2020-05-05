@@ -27,8 +27,7 @@
 
         <activity android:name=".Activities.WalletHomeActivity" />
 
-        <activity android:name=".Activities.CreateWalletActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.CreateWalletActivity" />
 
     </application>
 
