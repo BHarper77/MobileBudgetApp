@@ -112,7 +112,6 @@ public class transactionDialog extends DialogFragment
         bundle.putString("date", date);
         bundle.putString("time", time);
 
-        //TODO: Implement recurring functionality
         if (checkBox.isChecked())
         {
             bundle.putBoolean("recurring", true);

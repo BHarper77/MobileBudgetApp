@@ -217,7 +217,6 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
     @Override
     public void onWalletLongClick(int position)
     {
-        //TODO: Look at changing to popup instead of dialog
         new deleteWalletDialog(walletList.get(position)).show(getSupportFragmentManager(), null);
     }
 
