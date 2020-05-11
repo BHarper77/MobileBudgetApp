@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
 
     void updateUI()
     {
+        //Tie walletList to recyclerView and update every time function is called
         mAdapter = new recyclerViewAdapter(walletList, this);
         recyclerView.setAdapter(mAdapter);
 
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
         
         if (requestCode == 1 && resultCode == RESULT_OK)
         {
-            //Retriving bundle and extracting data
+            //Retriving new wallet from CreateWalletActivity
             Bundle data = intent.getExtras();
             walletClass resultWallet = (walletClass) data.getSerializable("walletClass");
 
@@ -177,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
 
     public void showPopup(View view)
     {
+        //Display popup for options menu
         PopupMenu popupMenu = new PopupMenu(this, view);
         popupMenu.setOnMenuItemClickListener(this);
         popupMenu.inflate(R.menu.options_menu);
@@ -217,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
     @Override
     public void onWalletLongClick(int position)
     {
+        //Display delete wallet dialog
         new deleteWalletDialog(walletList.get(position)).show(getSupportFragmentManager(), null);
     }
 
@@ -239,6 +242,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
 
     public void loadFile()
     {
+        //Load file in thread
         final Handler handler = new Handler();
 
         Runnable runnable = new Runnable()
@@ -293,6 +297,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
 
     public void saveFile()
     {
+        //Save file in thread
         Runnable runnable = new Runnable()
         {
             @Override
@@ -325,6 +330,7 @@ public class MainActivity extends AppCompatActivity implements recyclerViewAdapt
     @Override
     public void onBackPressed()
     {
+        //Close app
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -89,6 +89,7 @@ public class WalletHomeActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onDialogPositiveClick(DialogFragment dialogFragment, Bundle bundle)
     {
+        //Retrieve bundle data from dialog, create new transaction with data
         walletClass.transactions transaction = new walletClass.transactions(
                 bundle.getString("transactionType"),
                 bundle.getDouble("amount"),

@@ -41,6 +41,7 @@ public class walletClass implements Serializable
     {
         this.transactions.add(transaction);
 
+        //Sort transactions list then reverse to display latest transaction first
         Collections.sort(transactions);
         Collections.reverse(transactions);
     }
@@ -50,6 +51,7 @@ public class walletClass implements Serializable
         return transactions;
     }
 
+    //Inner class transactions
     public static class transactions implements Serializable, Comparable<walletClass.transactions>
     {
         private double amount;
@@ -103,6 +105,7 @@ public class walletClass implements Serializable
         @Override
         public int compareTo(walletClass.transactions transaction)
         {
+            //Order recyclerView to display latest transactions first
             return getTime().compareTo(transaction.getTime());
         }
     }

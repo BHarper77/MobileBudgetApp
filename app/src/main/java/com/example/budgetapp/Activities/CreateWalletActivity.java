@@ -49,9 +49,9 @@ public class CreateWalletActivity extends AppCompatActivity implements  View.OnC
         }
     }
 
-    //Validating wallet creation fields
     public boolean validate()
     {
+        //Validating wallet creation fields
         EditText walletName = findViewById(R.id.walletName);
         String walletNameString = walletName.getText().toString();
 
